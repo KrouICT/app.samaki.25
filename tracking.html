@@ -736,18 +736,23 @@
         };
 
         async function fetchSheetNames() {
-            try {
-                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}?key=${API_KEY}`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
-                const data = await response.json();
-                return data.sheets.map(sheet => sheet.properties.title);
-            } catch (error) {
-                console.error('Error fetching sheet names:', error);
-                showError('មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។');
-                return [];
-            }
+    try {
+        const response = await fetch('/api/sheets?action=list');
+        
+        if (response.status === 429) {
+            throw new Error('កំពុងមានអ្នកប្រើប្រាស់ច្រើនពេក។ សូមព្យាយាមម្តងទៀតក្នុងរយៈពេល ១ នាទី។');
         }
+        
+        if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
+        
+        const data = await response.json();
+        return data.sheets || [];
+    } catch (error) {
+        console.error('Error fetching sheet names:', error);
+        showError('មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។');
+        return [];
+    }
+}
 
         // ជំនួស function fetchSheetData ចាស់ដោយ function ថ្មីនេះ:
 async function fetchSheetData(sheetName) {
