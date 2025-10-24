@@ -2129,7 +2129,7 @@
             }
         }
 
-       async function fetchSheetNames() {
+      async function fetchSheetNames() {
     try {
         const response = await fetch('/api/sheetNames');
         if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
@@ -2153,7 +2153,7 @@ function showError(message) {
     console.error('Error:', message);
 }
 
-       // ជំនួស function fetchSheetData ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
+// ជំនួស function fetchSheetData ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
 async function fetchSheetData(sheetName) {
     try {
         // ធានាថា sheetName មិនទទេ
@@ -2179,12 +2179,7 @@ async function fetchSheetData(sheetName) {
     }
 }
 
-
-
-
-
-
-// ជំនួស DataCache class ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
+// DataCache class
 class DataCache {
     constructor() {
         this.cache = new Map();
@@ -2215,8 +2210,6 @@ document.addEventListener('DOMContentLoaded', function() {
     dataCache = new DataCache();
     console.log('DataCache initialized successfully');
 });
-
-
 
 // ប្រើ cache ក្នុងការហៅ API
 async function loadStudentData(month) {
@@ -2448,6 +2441,7 @@ async function loadStudentData(month) {
 </body>
 
 </html>
+
 
 
 
