@@ -2149,10 +2149,15 @@ function showError(message) {
     console.error('Error:', message);
 }
 
-        // ជំនួស function fetchSheetData ចាស់ដោយ function ថ្មីនេះ:
+       // ជំនួស function fetchSheetData ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
 async function fetchSheetData(sheetName) {
     try {
-        // ប្រើ API route ថ្មីជំនួសវិញ
+        // ប្រើ cache ជាមុនសិន
+        if (dataCache) {
+            return await dataCache.getData(sheetName);
+        }
+        
+        // បើគ្មាន cache ទាញយកពី API
         const response = await fetch(`/api/sheets?sheet=${encodeURIComponent(sheetName)}`);
         
         if (response.status === 429) {
@@ -2170,6 +2175,14 @@ async function fetchSheetData(sheetName) {
         throw error;
     }
 }
+
+// ប្រកាស dataCache ជាអថេរសកល (ដាក់នៅកន្លែងខ្ពស់ក្នុងកូដ)
+let dataCache = null;
+
+// ដំណើរការ initialization នៅពេល app start
+document.addEventListener('DOMContentLoaded', function() {
+    dataCache = new DataCache();
+});
 
 
 // បន្ថែម Data Cache class
@@ -2427,6 +2440,7 @@ async function loadStudentData(month) {
 </body>
 
 </html>
+
 
 
 
