@@ -2185,7 +2185,7 @@ let dataCache = null;
 
 
 
-// ជំនួសកូដ DataCache ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
+// ជំនួស DataCache class ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
 class DataCache {
     constructor() {
         this.cache = new Map();
@@ -2193,35 +2193,28 @@ class DataCache {
     }
 
     async getData(sheetName) {
-        try {
-            const cached = this.cache.get(sheetName);
-            if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
-                console.log('Using cached data for:', sheetName);
-                return cached.data;
-            }
-            
-            console.log('Fetching fresh data for:', sheetName);
-            const data = await fetchSheetData(sheetName);
-            this.cache.set(sheetName, {
-                data: data,
-                timestamp: Date.now()
-            });
-            
-            return data;
-        } catch (error) {
-            console.error('Error in DataCache:', error);
-            throw error;
+        const cached = this.cache.get(sheetName);
+        if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
+            return cached.data;
         }
+        
+        const data = await fetchSheetData(sheetName);
+        this.cache.set(sheetName, {
+            data: data,
+            timestamp: Date.now()
+        });
+        
+        return data;
     }
 }
 
-// Initialize dataCache ត្រឹមត្រូវ
+// មានតែប្រកាសមួយគត់!
 let dataCache = null;
 
-// ដំណើរការ initialization នៅពេល app start
+// Initialization នៅពេល DOM ready
 document.addEventListener('DOMContentLoaded', function() {
     dataCache = new DataCache();
-    console.log('DataCache initialized');
+    console.log('DataCache initialized successfully');
 });
 
 
@@ -2456,6 +2449,7 @@ async function loadStudentData(month) {
 </body>
 
 </html>
+
 
 
 
