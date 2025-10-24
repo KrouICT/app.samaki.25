@@ -1424,6 +1424,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const SPREADSHEET_ID = '1FOxoZrYjGoqqxww9hqK1jVU298-gujpMJ7T7kz_h1F0';
+        const API_KEY = 'AIzaSyCmWu60e8pf939POZxBlHjkRBT_FsLJSlI';
 
         const AppState = {
             currentSection: 'home',
@@ -2129,59 +2130,23 @@
             }
         }
 
-      async function fetchSheetNames() {
-    try {
-        console.log('Starting to fetch sheet names from API...');
-        const response = await fetch('/api/sheetNames');
-        
-        console.log('API Response status:', response.status);
-        
-        if (!response.ok) {
-            // ប្រសិនបើជា 404, ប្រហែល API route មិនត្រូវបាន deploy
-            if (response.status === 404) {
-                throw new Error('API endpoint not found. Please check server deployment.');
+        async function fetchSheetNames() {
+            try {
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}?key=${API_KEY}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
+                const data = await response.json();
+                return data.sheets.map(sheet => sheet.properties.title);
+            } catch (error) {
+                console.error('Error fetching sheet names:', error);
+                return [];
             }
-            throw new Error(`មិនអាចទាញយកឈ្មោះស៊ីតបានទេ: ${response.status}`);
         }
-        
-        const data = await response.json();
-        console.log('API Response data:', data);
-        
-        // ធានាថា data.sheets មាន
-        if (data.sheets && Array.isArray(data.sheets)) {
-            const sheetNames = data.sheets.map(sheet => sheet.properties.title);
-            console.log('Extracted sheet names:', sheetNames);
-            return sheetNames;
-        } else if (data.error) {
-            throw new Error(data.error);
-        } else {
-            throw new Error('ទម្រង់ទិន្នន័យមិនត្រឹមត្រូវ');
-        }
-    } catch (error) {
-        console.error('Error fetching sheet names:', error);
-        
-        // Fallback: ប្រើ hardcoded sheet names បើ API មិនដំណើរការ
-        const fallbackSheets = ['January', 'February', 'March', 'April', 'May', 'June'];
-        console.log('Using fallback sheet names:', fallbackSheets);
-        
-        return fallbackSheets;
-    }
-}
 
-// បន្ថែម function showError បើមិនទាន់មាន
-function showError(message) {
-    // អ្នកអាចបន្ថែមការបង្ហាញ error UI នៅទីនេះ
-    console.error('Error:', message);
-}
-
-// ជំនួស function fetchSheetData ដែលមានស្រាប់ដោយ version ថ្មីនេះ:
+        // ជំនួស function fetchSheetData ចាស់ដោយ function ថ្មីនេះ:
 async function fetchSheetData(sheetName) {
     try {
-        // ធានាថា sheetName មិនទទេ
-        if (!sheetName) {
-            throw new Error('ឈ្មោះស៊ីតទទេ');
-        }
-        
+        // ប្រើ API route ថ្មីជំនួសវិញ
         const response = await fetch(`/api/sheets?sheet=${encodeURIComponent(sheetName)}`);
         
         if (response.status === 429) {
@@ -2189,18 +2154,19 @@ async function fetchSheetData(sheetName) {
         }
         
         if (!response.ok) {
-            throw new Error(`មិនអាចទាញយកទិន្នន័យបានទេ: ${response.status}`);
+            throw new Error('មិនអាចទាញយកទិន្នន័យបានទេ');
         }
         
         const data = await response.json();
         return data.values || [];
     } catch (error) {
-        console.error('Error fetching sheet data:', error);
+        console.error('Error fetching data:', error);
         throw error;
     }
 }
 
-// DataCache class
+
+// បន្ថែម Data Cache class
 class DataCache {
     constructor() {
         this.cache = new Map();
@@ -2223,14 +2189,7 @@ class DataCache {
     }
 }
 
-// មានតែប្រកាសមួយគត់!
-let dataCache = null;
-
-// Initialization នៅពេល DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    dataCache = new DataCache();
-    console.log('DataCache initialized successfully');
-});
+const dataCache = new DataCache();
 
 // ប្រើ cache ក្នុងការហៅ API
 async function loadStudentData(month) {
@@ -2462,13 +2421,3 @@ async function loadStudentData(month) {
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
