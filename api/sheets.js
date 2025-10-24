@@ -27,7 +27,7 @@ function checkRateLimit(ip) {
 
 export default async function handler(req, res) {
     // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', 'https://samakki-school.vercel.app');
+    res.setHeader('Access-Control-Allow-Origin', 'https://samakischool.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
@@ -87,4 +87,5 @@ export default async function handler(req, res) {
         console.error('Error fetching sheet data:', error);
         return res.status(500).json({ error: 'មិនអាចទាញយកទិន្នន័យបានទេ' });
     }
+
 }
