@@ -2131,19 +2131,40 @@
 
       async function fetchSheetNames() {
     try {
+        console.log('Starting to fetch sheet names from API...');
         const response = await fetch('/api/sheetNames');
-        if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
+        
+        console.log('API Response status:', response.status);
+        
+        if (!response.ok) {
+            // ប្រសិនបើជា 404, ប្រហែល API route មិនត្រូវបាន deploy
+            if (response.status === 404) {
+                throw new Error('API endpoint not found. Please check server deployment.');
+            }
+            throw new Error(`មិនអាចទាញយកឈ្មោះស៊ីតបានទេ: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('API Response data:', data);
         
         // ធានាថា data.sheets មាន
         if (data.sheets && Array.isArray(data.sheets)) {
-            return data.sheets.map(sheet => sheet.properties.title);
+            const sheetNames = data.sheets.map(sheet => sheet.properties.title);
+            console.log('Extracted sheet names:', sheetNames);
+            return sheetNames;
+        } else if (data.error) {
+            throw new Error(data.error);
         } else {
             throw new Error('ទម្រង់ទិន្នន័យមិនត្រឹមត្រូវ');
         }
     } catch (error) {
         console.error('Error fetching sheet names:', error);
-        return [];
+        
+        // Fallback: ប្រើ hardcoded sheet names បើ API មិនដំណើរការ
+        const fallbackSheets = ['January', 'February', 'March', 'April', 'May', 'June'];
+        console.log('Using fallback sheet names:', fallbackSheets);
+        
+        return fallbackSheets;
     }
 }
 
@@ -2441,6 +2462,7 @@ async function loadStudentData(month) {
 </body>
 
 </html>
+
 
 
 
