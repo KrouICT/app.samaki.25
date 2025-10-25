@@ -3236,11 +3236,13 @@
 
                 let calendarHTML = '';
 
-                // Day headers
-                this.khmerDays.forEach((day, index) => {
-                    const isSunday = index === 0 ? 'sunday' : '';
-                    calendarHTML += `<div class="calendar-day-header ${isSunday}">${day}</div>`;
-                });
+            
+// Day headers
+this.khmerDays.forEach((day, index) => {
+    // ថ្ងៃអាទិត្យ (Sunday) គឺនៅ index 0
+    const isSunday = index === 0 ? 'sunday' : ''; 
+    calendarHTML += `<div class="calendar-day-header ${isSunday}">${day}</div>`;
+});
 
                 // Previous month days
                 for (let i = firstDayOfWeek; i > 0; i--) {
@@ -3450,3 +3452,4 @@
 </body>
 
 </html>
+
