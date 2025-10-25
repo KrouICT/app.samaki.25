@@ -3138,7 +3138,7 @@
                     'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
                     'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
                 ];
-                this.khmerDays = ['អាទិត្យ','ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                this.khmerDays = ['អាទិត្យ','ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
             }
 
             async init() {
@@ -3236,13 +3236,11 @@
 
                 let calendarHTML = '';
 
-            
-// Day headers
-this.khmerDays.forEach((day, index) => {
-    // ថ្ងៃអាទិត្យ (Sunday) គឺនៅ index 0
-    const isSunday = index === 0 ? 'sunday' : ''; 
-    calendarHTML += `<div class="calendar-day-header ${isSunday}">${day}</div>`;
-});
+                // Day headers
+                this.khmerDays.forEach((day, index) => {
+                    const isSunday = index === 0 ? 'sunday' : '';
+                    calendarHTML += `<div class="calendar-day-header ${isSunday}">${day}</div>`;
+                });
 
                 // Previous month days
                 for (let i = firstDayOfWeek; i > 0; i--) {
@@ -3327,7 +3325,7 @@ this.khmerDays.forEach((day, index) => {
                 const description = document.getElementById('eventModalDescription');
 
                 const khmerDate = `${date.getDate()} ${this.khmerMonths[date.getMonth()]} ${date.getFullYear()}`;
-                const dayOfWeek = this.khmerDays[date.getDay() === 0 ? 6 : date.getDay() - 1];
+                const dayOfWeek = this.khmerDays[date.getDay() === 0 ? 0 : date.getDay() - 1];
 
                 title.textContent = events[0].title;
                 dateEl.innerHTML = `<i class="fas fa-calendar-alt"></i> ${dayOfWeek}, ${khmerDate}`;
@@ -3452,4 +3450,3 @@ this.khmerDays.forEach((day, index) => {
 </body>
 
 </html>
-
