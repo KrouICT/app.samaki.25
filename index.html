@@ -1293,6 +1293,258 @@
                 max-width: 250px;
             }
         }
+
+        /* 📅 Khmer Calendar Styles */
+.calendar-container {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.calendar-nav button {
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Battambang', sans-serif;
+}
+
+.calendar-nav button:hover {
+    background: var(--secondary-green);
+    transform: scale(1.05);
+}
+
+.calendar-title {
+    font-size: 1.5rem;
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    padding: 12px;
+    background: var(--primary-green);
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.calendar-day {
+    min-height: 100px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 2px solid var(--primary-blue);
+    font-weight: 700;
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+    background: #f5f5f5;
+}
+
+.calendar-day.holiday {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    border: 2px solid #d32f2f;
+}
+
+.calendar-day.event {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border: 2px solid #ff9800;
+}
+
+.day-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.lunar-date {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.day-events {
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.event-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin: 2px 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.event-badge.holiday {
+    background: #f44336;
+    color: white;
+}
+
+.event-badge.event {
+    background: #ff9800;
+    color: white;
+}
+
+.calendar-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.legend-color.today {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 2px solid var(--primary-blue);
+}
+
+.legend-color.holiday {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    border: 2px solid #d32f2f;
+}
+
+.legend-color.event {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border: 2px solid #ff9800;
+}
+
+/* Event Detail Modal */
+.event-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    animation: fadeIn 0.3s ease;
+}
+
+.event-modal.show {
+    display: flex;
+}
+
+.event-modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.event-modal-close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.event-modal-close:hover {
+    color: var(--primary-green);
+}
+
+.event-modal-title {
+    font-size: 1.5rem;
+    color: var(--primary-green);
+    margin-bottom: 15px;
+    font-family: 'Moul', sans-serif;
+}
+
+.event-modal-date {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.event-modal-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dark-text);
+}
+
+@media (max-width: 768px) {
+    .calendar-day {
+        min-height: 80px;
+        padding: 6px;
+    }
+    
+    .day-number {
+        font-size: 1rem;
+    }
+    
+    .lunar-date, .day-events {
+        font-size: 0.7rem;
+    }
+    
+    .calendar-title {
+        font-size: 1.2rem;
+    }
+}
     </style>
 </head>
 
@@ -1376,7 +1628,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="#" data-section="home">ទំព័រដើម</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-section="library">បណ្ណាល័យ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="calendar">ប្រតិទិន</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-section="track-child">ពិន្ទុសិស្ស</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-section="profile">អំពីយើង</a></li>
                 </ul>
@@ -1442,9 +1694,9 @@
             <i class="fas fa-home"></i>
             <div>ទំព័រដើម</div>
         </div>
-        <div class="bottom-nav-item" data-section="library">
-            <i class="fas fa-book"></i>
-            <div>បណ្ណាល័យ</div>
+        <div class="bottom-nav-item" data-section="calendar">
+            <i class="fas fa-calendar-alt"></i>
+            <div>ប្រតិទិន</div>
         </div>
         <div class="bottom-nav-item" data-section="track-child">
             <i class="fas fa-user-graduate"></i>
@@ -1458,6 +1710,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const SPREADSHEET_ID = '1FOxoZrYjGoqqxww9hqK1jVU298-gujpMJ7T7kz_h1F0';
+        const API_KEY = 'AIzaSyCmWu60e8pf939POZxBlHjkRBT_FsLJSlI';
 
         const AppState = {
             currentSection: 'home',
@@ -1779,10 +2033,12 @@
                 const content = this.getContentTemplate(section);
                 this.contentContainer.innerHTML = content;
 
-                if (section === 'home') {
+               if (section === 'home') {
                     this.initializeHomeChart();
                 } else if (section === 'track-child') {
                     await this.initializeTrackChild();
+                } else if (section === 'calendar') {
+                    await this.initializeCalendar();
                 }
             }
 
@@ -1914,53 +2170,52 @@
                             <canvas id="homeStudentsChart"></canvas>
                         </div>
                     `,
-                    library: `
-                        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow); text-align: center;">
-                            <h2><i class="fas fa-book"></i> បណ្ណាល័យសាលា</h2>
-                            <p>ប្រភពនៃចំណេះដឹងនិងការរៀនសូត្រ</p>
-                            <div style="margin-top: 30px;">
-                                <i class="fas fa-book-open" style="font-size: 4rem; color: var(--primary-green);"></i>
-                                <p style="margin-top: 20px; font-size: 1.1rem;">មុខងារនេះកំពុងបង្កើតឡើង...</p>
-                            </div>
-                        </div>
-                    `,
-                    'track-child': `
-                        <div class="welcome-section">
-                            <h1 style="font-size:1.3rem;">📊 កម្មវិធីតាមដានពិន្ទុ និងវត្តមានសិស្ស</h1>
-                            <p>តាមដានលទ្ធផលសិក្សា និងវត្តមានរបស់សិស្ស - ឆ្នាំសិក្សា២០២៥-២០២៦</p>
-                            <a href="tracking.html" class="track-btn-simple">
-                                <i class="fas fa-child"></i>
-                                តាមដានកូនខ្ញុំ
-                            </a>
-                        </div>
-                        <div class="track-filters">
-                            <div class="filter-row">
-                                <div class="filter-group">
-                                    <label for="monthSelect"><i class="fas fa-calendar-alt"></i> ជ្រើសរើសខែ</label>
-                                    <select id="monthSelect">
-                                        <option value="">-- ជ្រើសរើសខែ --</option>
-                                    </select>
-                                </div>
-                                <div class="filter-group">
-                                    <label for="classLevel"><i class="fas fa-school"></i> កម្រិតថ្នាក់</label>
-                                    <select id="classLevel">
-                                        <option value="">-- ជ្រើសរើសថ្នាក់ --</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="track-content">
-                            <div class="student-list-container">
-                                <div class="list-header"><i class="fas fa-list"></i> បញ្ជីសិស្ស</div>
-                                <div class="student-items" id="studentList">
-                                    <div style="padding: 30px; text-align: center; color: #6b7280;">
-                                        <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                                        <p>សូមជ្រើសរើសខែ និងថ្នាក់រៀនដើម្បីមើលបញ្ជីសិស្ស</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `,
+                    calendar: `
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="calendar-nav">
+                <button id="prevMonth"><i class="fas fa-chevron-left"></i> មុន</button>
+                <h2 class="calendar-title" id="calendarTitle">កំពុងផ្ទុក...</h2>
+                <button id="nextMonth">បន្ទាប់ <i class="fas fa-chevron-right"></i></button>
+            </div>
+            <button id="todayBtn" style="background: var(--primary-blue);">
+                <i class="fas fa-calendar-day"></i> ថ្ងៃនេះ
+            </button>
+        </div>
+        
+        <div class="calendar-grid" id="calendarGrid">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p>កំពុងផ្ទុកប្រតិទិន...</p>
+            </div>
+        </div>
+        
+        <div class="calendar-legend">
+            <div class="legend-item">
+                <div class="legend-color today"></div>
+                <span>ថ្ងៃនេះ</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color holiday"></div>
+                <span>ថ្ងៃឈប់សម្រាក</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color event"></div>
+                <span>ព្រឹត្តិការណ៍ធម្មតា</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Event Detail Modal -->
+    <div class="event-modal" id="eventModal">
+        <div class="event-modal-content">
+            <span class="event-modal-close" id="eventModalClose">&times;</span>
+            <h3 class="event-modal-title" id="eventModalTitle"></h3>
+            <p class="event-modal-date" id="eventModalDate"></p>
+            <p class="event-modal-description" id="eventModalDescription"></p>
+        </div>
+    </div>
+`,
                     profile: `
                         <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow);">
                             <h2><i class="fas fa-info-circle"></i> អំពីសាលា</h2>
@@ -2151,7 +2406,10 @@
                     popup.classList.add('show');
                 });
             }
-
+            async initializeCalendar() {
+                const calendar = new KhmerCalendarController();
+                await calendar.init();
+            }
             closeNavbar() {
                 if (window.innerWidth <= 768 && this.navbarCollapse && this.navbarCollapse.classList.contains('show')) {
                     const bsCollapse = bootstrap.Collapse.getInstance(this.navbarCollapse);
@@ -2404,6 +2662,228 @@ async function loadStudentData(month) {
                 if (attendanceDetails) attendanceDetails.style.display = 'none';
             });
         }
+
+        // 📅 Khmer Calendar Controller
+class KhmerCalendarController {
+    constructor() {
+        this.currentDate = new Date();
+        this.events = [];
+        this.khmerMonths = [
+            'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
+            'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
+        ];
+        this.khmerDays = ['ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍', 'អាទិត្យ'];
+    }
+
+    async init() {
+        await this.loadEvents();
+        this.setupEventListeners();
+        this.renderCalendar();
+    }
+
+    async loadEvents() {
+        try {
+            const data = await fetchSheetData('Calendar');
+            if (data.length > 1) {
+                this.events = data.slice(1).map(row => ({
+                    title: row[0],
+                    date: this.parseDate(row[1]),
+                    description: row[2] || '',
+                    type: row[3] || 'event' // 'holiday' or 'event'
+                })).filter(event => event.date); // Remove invalid dates
+            }
+        } catch (error) {
+            console.error('Error loading calendar events:', error);
+        }
+    }
+
+    parseDate(dateStr) {
+        if (!dateStr) return null;
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return null;
+        
+        const day = parseInt(parts[0]);
+        const month = parseInt(parts[1]) - 1;
+        const year = parseInt(parts[2]);
+        
+        if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
+        
+        return new Date(year, month, day);
+    }
+
+    setupEventListeners() {
+        const prevBtn = document.getElementById('prevMonth');
+        const nextBtn = document.getElementById('nextMonth');
+        const todayBtn = document.getElementById('todayBtn');
+
+        if (prevBtn) prevBtn.addEventListener('click', () => this.previousMonth());
+        if (nextBtn) nextBtn.addEventListener('click', () => this.nextMonth());
+        if (todayBtn) todayBtn.addEventListener('click', () => this.goToToday());
+
+        const modal = document.getElementById('eventModal');
+        const closeBtn = document.getElementById('eventModalClose');
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('show');
+            });
+        }
+    }
+
+    previousMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        this.renderCalendar();
+    }
+
+    nextMonth() {
+        this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+        this.renderCalendar();
+    }
+
+    goToToday() {
+        this.currentDate = new Date();
+        this.renderCalendar();
+    }
+
+    getLunarDate(solarDate) {
+        // ការគណនាថ្ងៃចន្ទគតិខ្មែរ (simplified version)
+        // សម្រាប់កម្មវិធីពិតប្រាកដ អ្នកគួរប្រើ library ដូចជា Khmer Lunar Calendar
+        const day = solarDate.getDate();
+        const month = solarDate.getMonth() + 1;
+        
+        // ការប៉ាន់ស្មានសាមញ្ញ (គួរប្រើ library ពិតប្រាកដ)
+        const lunarDay = (day + 11) % 30 + 1;
+        const moonPhase = this.getMoonPhase(lunarDay);
+        
+        return `${moonPhase} ${lunarDay} កើត`;
+    }
+
+    getMoonPhase(lunarDay) {
+        if (lunarDay >= 1 && lunarDay <= 15) return 'រោច';
+        return 'កើត';
+    }
+
+    renderCalendar() {
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
+        
+        const title = document.getElementById('calendarTitle');
+        if (title) {
+            title.textContent = `${this.khmerMonths[month]} ${year}`;
+        }
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const prevLastDay = new Date(year, month, 0);
+        
+        const firstDayOfWeek = firstDay.getDay();
+        const lastDateOfMonth = lastDay.getDate();
+        const prevLastDate = prevLastDay.getDate();
+
+        let calendarHTML = '';
+
+        // Day headers
+        this.khmerDays.forEach(day => {
+            calendarHTML += `<div class="calendar-day-header">${day}</div>`;
+        });
+
+        // Previous month days
+        for (let i = firstDayOfWeek; i > 0; i--) {
+            const date = new Date(year, month - 1, prevLastDate - i + 1);
+            calendarHTML += this.renderDay(date, true);
+        }
+
+        // Current month days
+        for (let day = 1; day <= lastDateOfMonth; day++) {
+            const date = new Date(year, month, day);
+            calendarHTML += this.renderDay(date, false);
+        }
+
+        // Next month days
+        const remainingCells = 42 - (firstDayOfWeek + lastDateOfMonth);
+        for (let day = 1; day <= remainingCells; day++) {
+            const date = new Date(year, month + 1, day);
+            calendarHTML += this.renderDay(date, true);
+        }
+
+        const grid = document.getElementById('calendarGrid');
+        if (grid) grid.innerHTML = calendarHTML;
+
+        // Add click event listeners to days
+        document.querySelectorAll('.calendar-day').forEach(dayEl => {
+            dayEl.addEventListener('click', () => {
+                const dateStr = dayEl.dataset.date;
+                if (dateStr) {
+                    const date = new Date(dateStr);
+                    this.showDayEvents(date);
+                }
+            });
+        });
+    }
+
+    renderDay(date, isOtherMonth) {
+        const today = new Date();
+        const isToday = date.toDateString() === today.toDateString();
+        
+        const dayEvents = this.getEventsForDate(date);
+        const hasHoliday = dayEvents.some(e => e.type === 'holiday');
+        const hasEvent = dayEvents.some(e => e.type === 'event');
+        
+        let classes = 'calendar-day';
+        if (isOtherMonth) classes += ' other-month';
+        if (isToday) classes += ' today';
+        if (hasHoliday) classes += ' holiday';
+        else if (hasEvent) classes += ' event';
+
+        const lunarDate = this.getLunarDate(date);
+        
+        let eventsHTML = '';
+        dayEvents.forEach(event => {
+            const badgeClass = event.type === 'holiday' ? 'holiday' : 'event';
+            eventsHTML += `<div class="event-badge ${badgeClass}">${event.title}</div>`;
+        });
+
+        return `
+            <div class="${classes}" data-date="${date.toISOString()}">
+                <div class="day-number">${date.getDate()}</div>
+                <div class="lunar-date">${lunarDate}</div>
+                <div class="day-events">${eventsHTML}</div>
+            </div>
+        `;
+    }
+
+    getEventsForDate(date) {
+        return this.events.filter(event => {
+            if (!event.date) return false;
+            return event.date.toDateString() === date.toDateString();
+        });
+    }
+
+    showDayEvents(date) {
+        const events = this.getEventsForDate(date);
+        
+        if (events.length === 0) return;
+
+        const modal = document.getElementById('eventModal');
+        const title = document.getElementById('eventModalTitle');
+        const dateEl = document.getElementById('eventModalDate');
+        const description = document.getElementById('eventModalDescription');
+
+        const khmerDate = `${date.getDate()} ${this.khmerMonths[date.getMonth()]} ${date.getFullYear()}`;
+        const lunarDate = this.getLunarDate(date);
+
+        title.textContent = events[0].title;
+        dateEl.innerHTML = `<i class="fas fa-calendar-alt"></i> ${khmerDate}<br><i class="fas fa-moon"></i> ${lunarDate}`;
+        description.textContent = events[0].description;
+
+        modal.classList.add('show');
+    }
+}
+
 
         class App {
             constructor() {
