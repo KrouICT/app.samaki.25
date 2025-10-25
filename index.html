@@ -1350,9 +1350,19 @@
         }
 
         #todayBtn {
-            background: var(--primary-blue) !important;
+            /* background: var(--primary-blue) !important;
             padding: 8px 16px;
+            font-size: 0.9rem; */
+            background: var(--primary-green) !important;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Battambang', sans-serif;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .calendar-grid {
@@ -1871,12 +1881,12 @@
 
         .global-copyright p {
             margin: 0;
-            color: #666;
+            color: var(--primary-green);
             font-size: 0.95rem;
         }
 
         .global-copyright strong {
-            color: var(--accent-yellow);
+            color: var(--primary-green);
             font-weight: 600;
         }
 
@@ -2546,7 +2556,7 @@
                         <button id="nextMonth">បន្ទាប់ <i class="fas fa-chevron-right"></i></button>
                     </div>
                     <button id="todayBtn" style="background: var(--primary-blue);">
-                        <i class="fas fa-calendar-day"></i> ថ្ងៃនេះ
+                        <i class="fas fa-calendar-day"></i> ចូលទៅថ្ងៃនេះ
                     </button>
                 </div>
                 
