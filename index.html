@@ -1371,6 +1371,9 @@
             border-radius: 6px;
             font-size: 0.85rem;
         }
+        .calendar-day-header.sunday {
+        background: #d32f2f;
+    }
 
         .calendar-day {
             min-height: 70px;
@@ -1486,6 +1489,199 @@
             background: linear-gradient(135deg, #fff3e0, #ffe0b2);
             border: 2px solid #ff9800;
         }
+
+        /* 📋 Events List Section */
+.calendar-events-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.calendar-events-section h3 {
+    color: var(--primary-green);
+    font-family: 'Moul', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-green);
+    padding-bottom: 10px;
+}
+
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.event-list-item:hover {
+    background: var(--light-bg);
+    transform: translateX(5px);
+}
+
+.event-list-item.holiday {
+    background: linear-gradient(to right, #ffebee, white);
+    border-left-color: #d32f2f;
+}
+
+.event-list-item.event {
+    background: linear-gradient(to right, #fff3e0, white);
+    border-left-color: #ff9800;
+}
+
+.event-date-box {
+    min-width: 70px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.event-date-day {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    line-height: 1;
+}
+
+.event-date-month {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.event-date-box.holiday .event-date-day {
+    color: #d32f2f;
+}
+
+.event-date-box.event .event-date-day {
+    color: #ff9800;
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-info-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.event-info-desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.event-type-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.event-type-badge.holiday {
+    background: #d32f2f;
+    color: white;
+}
+
+.event-type-badge.event {
+    background: #ff9800;
+    color: white;
+}
+
+.no-events {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+.no-events i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #ddd;
+}
+
+/* 📝 Copyright Footer */
+.calendar-footer {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    background: var(--light-bg);
+    border-radius: 12px;
+    border-top: 3px solid var(--primary-green);
+}
+
+.calendar-footer p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.calendar-footer strong {
+    color: var(--primary-green);
+    font-weight: 600;
+}
+
+/* 📱 Mobile Responsive for Events List */
+@media (max-width: 768px) {
+    .calendar-events-section {
+        padding: 15px;
+    }
+    
+    .calendar-events-section h3 {
+        font-size: 1.1rem;
+    }
+    
+    .event-list-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .event-date-box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .event-date-day {
+        font-size: 1.5rem;
+    }
+    
+    .event-info-title {
+        font-size: 1rem;
+    }
+    
+    .event-info-desc {
+        font-size: 0.9rem;
+    }
+    
+    .calendar-footer {
+        padding: 15px;
+    }
+    
+    .calendar-footer p {
+        font-size: 0.85rem;
+    }
+}
 
         /* Event Detail Modal */
         .event-modal {
@@ -2282,6 +2478,13 @@
                         </div>
                     `,
                     calendar: `
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: var(--primary-green); font-family: 'Moul', sans-serif; margin-bottom: 5px;">
+            <i class="fas fa-calendar-alt"></i> ប្រតិទិនអនុវិទ្យាល័យសាមគ្គី
+        </h2>
+        <p style="color: #666; font-size: 0.95rem;">កាលបរិច្ឆេទថ្ងៃឈប់សម្រាក និងព្រឹត្តិការណ៍សំខាន់ៗ</p>
+    </div>
+    
     <div class="calendar-container">
         <div class="calendar-header">
             <div class="calendar-nav">
@@ -2315,6 +2518,24 @@
                 <span>ព្រឹត្តិការណ៍ធម្មតា</span>
             </div>
         </div>
+    </div>
+    
+    <!-- 📋 Events List Section -->
+    <div class="calendar-events-section" id="calendarEventsSection">
+        <h3><i class="fas fa-list-ul"></i> ព្រឹត្តិការណ៍ខែនេះ</h3>
+        <div class="events-list" id="eventsList">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 📝 Copyright Footer -->
+    <div class="calendar-footer">
+        <p><strong>Developed & Designed by My Langdy</strong></p>
+        <p style="margin-top: 5px; font-size: 0.85rem; color: #999;">
+            <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+        </p>
     </div>
     
     <!-- Event Detail Modal -->
@@ -2882,8 +3103,9 @@
                 let calendarHTML = '';
 
                 // Day headers
-                this.khmerDays.forEach(day => {
-                    calendarHTML += `<div class="calendar-day-header">${day}</div>`;
+                this.khmerDays.forEach((day, index) => {
+                    const isSunday = index === 6 ? 'sunday' : '';
+                    calendarHTML += `<div class="calendar-day-header ${isSunday}">${day}</div>`;
                 });
 
                 // Previous month days
@@ -2907,6 +3129,9 @@
 
                 const grid = document.getElementById('calendarGrid');
                 if (grid) grid.innerHTML = calendarHTML;
+
+                // Render events list
+                this.renderEventsList();
 
                 // Add click event listeners to days
                 document.querySelectorAll('.calendar-day').forEach(dayEl => {
@@ -2974,6 +3199,57 @@
 
                 modal.classList.add('show');
             }
+
+            renderEventsList() {
+    const year = this.currentDate.getFullYear();
+    const month = this.currentDate.getMonth();
+    
+    const monthEvents = this.events.filter(event => {
+        if (!event.date) return false;
+        return event.date.getMonth() === month && event.date.getFullYear() === year;
+    }).sort((a, b) => a.date - b.date);
+    
+    const eventsList = document.getElementById('eventsList');
+    
+    if (!eventsList) return;
+    
+    if (monthEvents.length === 0) {
+        eventsList.innerHTML = `
+            <div class="no-events">
+                <i class="fas fa-calendar-times"></i>
+                <p>មិនមានព្រឹត្តិការណ៍សម្រាប់ខែនេះទេ</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let eventsHTML = '';
+    
+    monthEvents.forEach(event => {
+        const day = event.date.getDate();
+        const monthName = this.khmerMonths[event.date.getMonth()];
+        const typeClass = event.type === 'holiday' ? 'holiday' : 'event';
+        const typeName = event.type === 'holiday' ? 'ថ្ងៃឈប់សម្រាក' : 'ព្រឹត្តិការណ៍';
+        
+        eventsHTML += `
+            <div class="event-list-item ${typeClass}">
+                <div class="event-date-box ${typeClass}">
+                    <div class="event-date-day">${day}</div>
+                    <div class="event-date-month">${monthName}</div>
+                </div>
+                <div class="event-info">
+                    <div class="event-info-title">
+                        ${event.title}
+                        <span class="event-type-badge ${typeClass}">${typeName}</span>
+                    </div>
+                    <div class="event-info-desc">${event.description}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    eventsList.innerHTML = eventsHTML;
+}
         }
 
 
