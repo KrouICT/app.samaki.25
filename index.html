@@ -3315,25 +3315,25 @@
             }
 
             showDayEvents(date) {
-                const events = this.getEventsForDate(date);
+    const events = this.getEventsForDate(date);
 
-                if (events.length === 0) return;
+    if (events.length === 0) return;
 
-                const modal = document.getElementById('eventModal');
-                const title = document.getElementById('eventModalTitle');
-                const dateEl = document.getElementById('eventModalDate');
-                const description = document.getElementById('eventModalDescription');
+    const modal = document.getElementById('eventModal');
+    const title = document.getElementById('eventModalTitle');
+    const dateEl = document.getElementById('eventModalDate');
+    const description = document.getElementById('eventModalDescription');
 
-                const khmerDate = `${date.getDate()} ${this.khmerMonths[date.getMonth()]} ${date.getFullYear()}`;
-                const dayOfWeek = this.khmerDays[date.getDay() === 0 ? 0 : date.getDay() - 1];
+    const khmerDate = `${date.getDate()} ${this.khmerMonths[date.getMonth()]} ${date.getFullYear()}`;
+    // ✅ កែត្រង់នេះ - date.getDay() ត្រលប់ 0-6 (អាទិត្យ=0, ចន្ទ=1, ..., សៅរ៍=6)
+    const dayOfWeek = this.khmerDays[date.getDay()];
 
-                title.textContent = events[0].title;
-                dateEl.innerHTML = `<i class="fas fa-calendar-alt"></i> ${dayOfWeek}, ${khmerDate}`;
-                description.textContent = events[0].description;
+    title.textContent = events[0].title;
+    dateEl.innerHTML = `<i class="fas fa-calendar-alt"></i> ${dayOfWeek}, ${khmerDate}`;
+    description.textContent = events[0].description;
 
-                modal.classList.add('show');
-            }
-
+    modal.classList.add('show');
+}
             renderEventsList() {
                 const year = this.currentDate.getFullYear();
                 const month = this.currentDate.getMonth();
@@ -3450,3 +3450,4 @@
 </body>
 
 </html>
+
