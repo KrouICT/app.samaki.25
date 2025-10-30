@@ -1009,7 +1009,7 @@
             }
 
             const scoreSheets = AppState.sheetNames.filter(sheet =>
-                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications'
+                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications'&& sheet !== 'Calendar'&& sheet !== 'forTeacher'
             );
 
             monthSelect.innerHTML = scoreSheets.map(sheet =>
