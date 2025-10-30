@@ -844,44 +844,38 @@
         }
 
         async function validateLogin(username, password) {
-    if (username !== 'samaki') {
-        return { success: false, message: 'ឈ្មោះអ្នកប្រើប្រាស់មិនត្រឹមត្រូវ' };
-    }
+            if (username !== 'samaki') {
+                return { success: false, message: 'ឈ្មោះអ្នកប្រើប្រាស់មិនត្រឹមត្រូវ' };
+            }
 
-    AppState.sheetNames = await fetchSheetNames();
-    if (AppState.sheetNames.length === 0) {
-        return { success: false, message: 'មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ' };
-    }
+            AppState.sheetNames = await fetchSheetNames();
+            if (AppState.sheetNames.length === 0) {
+                return { success: false, message: 'មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ' };
+            }
 
-    // ✅ កែប្រែផ្នែកនេះ - ដូចគ្នានឹងក្នុង initializeDashboard
-    const scoreSheets = AppState.sheetNames.filter(sheet =>
-        !sheet.startsWith('Att-') && 
-        sheet !== 'userLogin' && 
-        sheet !== 'ClassTimes' && 
-        sheet !== 'Notifications' &&
-        sheet !== 'Calendar' &&
-        sheet !== 'forTeacher'
-    );
+            const scoreSheets = AppState.sheetNames.filter(sheet =>
+                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !=='Calendar' && sheet !== 'forTeacher'
+            );
 
-    if (scoreSheets.length === 0) {
-        return { success: false, message: 'មិនមានទិន្នន័យក្នុងប្រព័ន្ធ' };
-    }
+            if (scoreSheets.length === 0) {
+                return { success: false, message: 'មិនមានទិន្នន័យក្នុងប្រព័ន្ធ' };
+            }
 
-    const firstSheet = scoreSheets[0];
-    const data = await fetchSheetData(firstSheet);
+            const firstSheet = scoreSheets[0];
+            const data = await fetchSheetData(firstSheet);
 
-    if (data.length <= 1) {
-        return { success: false, message: 'មិនមានទិន្នន័យសិស្ស' };
-    }
+            if (data.length <= 1) {
+                return { success: false, message: 'មិនមានទិន្នន័យសិស្ស' };
+            }
 
-    const studentRow = data.find(row => row[0] === password);
+            const studentRow = data.find(row => row[0] === password);
 
-    if (!studentRow) {
-        return { success: false, message: 'លេខសម្ងាត់មិនត្រឹមត្រូវ (អត្តលេខសិស្សមិនត្រឹមត្រូវ)' };
-    }
+            if (!studentRow) {
+                return { success: false, message: 'លេខសម្ងាត់មិនត្រឹមត្រូវ (អត្តលេខសិស្សមិនត្រឹមត្រូវ)' };
+            }
 
-    return { success: true, studentId: password, studentName: studentRow[1] };
-}
+            return { success: true, studentId: password, studentName: studentRow[1] };
+        }
 
         function showError(message) {
             const errorMessage = document.getElementById('errorMessage');
@@ -1009,7 +1003,7 @@
             }
 
             const scoreSheets = AppState.sheetNames.filter(sheet =>
-                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications'&& sheet !== 'Calendar'&& sheet !== 'forTeacher'
+                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' &&  sheet !=='forTeacher' && sheet !== 'Calendar'
             );
 
             monthSelect.innerHTML = scoreSheets.map(sheet =>
