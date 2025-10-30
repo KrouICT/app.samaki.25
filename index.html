@@ -2788,7 +2788,7 @@
                     return;
                 }
 
-                const scoreSheets = AppState.sheetNames.filter(sheet => !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !== 'Calendar') && sheet !== 'forTeacher';
+                const scoreSheets = AppState.sheetNames.filter(sheet => !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !== 'Calendar' && sheet !== 'forTeacher');
 
                 monthSelect.innerHTML = '<option value="">-- ជ្រើសរើសខែ --</option>' +
                     scoreSheets.map(sheet => `<option value="${sheet}">${sheet}</option>`).join('');
