@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="km">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>តាមដានពិន្ទុសិស្ស - អនុវិទ្យាល័យសាមគ្គី</title>
-     <!-- 🎯 បន្ថែម Favicon ត្រង់នេះ -->
-    <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg">
-    
+    <!-- 🎯 បន្ថែម Favicon ត្រង់នេះ -->
+    <link rel="icon" type="image/svg+xml"
+        href="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg">
+    <link rel="apple-touch-icon"
+        href="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg">
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@100;300;400;700;900&family=Moul&family=Siemreap&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Battambang:wght@100;300;400;700;900&family=Moul&family=Siemreap&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary-green: #2C6E49;
@@ -64,6 +69,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -163,7 +169,8 @@
             cursor: not-allowed;
         }
 
-        .error-message, .success-message {
+        .error-message,
+        .success-message {
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -181,15 +188,26 @@
             color: var(--present-color);
         }
 
-        .error-message.show, .success-message.show {
+        .error-message.show,
+        .success-message.show {
             display: block;
             animation: shake 0.5s ease;
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
         }
 
         .dashboard-container {
@@ -303,7 +321,8 @@
             margin: 20px 0;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
@@ -343,7 +362,8 @@
             color: #fff;
         }
 
-        .attendance-btn, .schedule-btn {
+        .attendance-btn,
+        .schedule-btn {
             background-color: var(--primary-blue);
             color: white;
             border: none;
@@ -371,7 +391,8 @@
             transform: translateY(-2px);
         }
 
-        .attendance-section, .schedule-section {
+        .attendance-section,
+        .schedule-section {
             display: none;
             margin-top: 20px;
             padding: 20px;
@@ -379,11 +400,13 @@
             border-radius: 8px;
         }
 
-        .attendance-section.show, .schedule-section.show {
+        .attendance-section.show,
+        .schedule-section.show {
             display: block;
         }
 
-        .attendance-section h4, .schedule-section h4 {
+        .attendance-section h4,
+        .schedule-section h4 {
             color: var(--primary-blue);
             margin-bottom: 15px;
         }
@@ -496,8 +519,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .session-info {
@@ -533,15 +561,15 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 16px;
             }
-            
-            .info-item{
+
+            .info-item {
                 background-color: #34ffbb3e;
             }
 
-            .student-card{
+            .student-card {
                 padding: 1px;
             }
-            
+
             .attendance-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -552,7 +580,8 @@
                 font-size: 0.9rem;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 8px;
             }
 
@@ -565,7 +594,8 @@
                 padding: 6px 4px;
             }
 
-            .attendance-btn, .schedule-btn {
+            .attendance-btn,
+            .schedule-btn {
                 width: 100%;
                 margin-right: 0;
                 margin-bottom: 10px;
@@ -573,11 +603,13 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Login Container -->
     <div class="login-container" id="loginContainer">
         <div class="login-header">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg" alt="Logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Emblem_of_the_Ministry_of_Education%2C_Youth_and_Sport_%28Cambodia%29.svg"
+                alt="Logo">
             <h1>ចូលប្រព័ន្ធតាមដាន</h1>
             <p>អនុវិទ្យាល័យសាមគ្គី</p>
         </div>
@@ -659,7 +691,8 @@
     </div>
 
     <script>
-        
+        const SPREADSHEET_ID = '1FOxoZrYjGoqqxww9hqK1jVU298-gujpMJ7T7kz_h1F0';
+        const API_KEY = 'AIzaSyCmWu60e8pf939POZxBlHjkRBT_FsLJSlI';
         const SESSION_DURATION = 90 * 24 * 60 * 60 * 1000;
 
         const AppState = {
@@ -673,20 +706,20 @@
         // ✅ Session Manager ដែលប្រើ Cookie (ដំណើរការពិតប្រាកដ)
         const SessionManager = {
             STORAGE_KEY: 'samakkiStudentSession',
-            
-            save: function(studentId, studentName, rememberMe) {
+
+            save: function (studentId, studentName, rememberMe) {
                 if (!rememberMe) {
                     this.clear();
                     return;
                 }
-                
+
                 const sessionData = {
                     studentId: studentId,
                     studentName: studentName,
                     loginTime: Date.now(),
                     expiryTime: Date.now() + SESSION_DURATION
                 };
-                
+
                 try {
                     // ប្រើ Cookie ដើម្បីរក្សាទុក (ដំណើរការ 100%)
                     const cookieValue = encodeURIComponent(JSON.stringify(sessionData));
@@ -698,21 +731,21 @@
                 }
             },
 
-            get: function() {
+            get: function () {
                 try {
                     const cookies = document.cookie.split(';');
                     for (let cookie of cookies) {
                         const [name, value] = cookie.trim().split('=');
                         if (name === this.STORAGE_KEY) {
                             const session = JSON.parse(decodeURIComponent(value));
-                            
+
                             // ពិនិត្យផុតកំណត់
                             if (Date.now() > session.expiryTime) {
                                 console.log('Session expired');
                                 this.clear();
                                 return null;
                             }
-                            
+
                             console.log('Session found:', session);
                             return session;
                         }
@@ -725,12 +758,12 @@
                 }
             },
 
-            clear: function() {
+            clear: function () {
                 document.cookie = `${this.STORAGE_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
                 console.log('Session cleared');
             },
 
-            getRemainingDays: function() {
+            getRemainingDays: function () {
                 const session = this.get();
                 if (!session) return 0;
 
@@ -740,75 +773,75 @@
         };
 
         async function fetchSheetNames() {
-    try {
-        const response = await fetch('/api/sheets?action=list');
-        
-        if (response.status === 429) {
-            throw new Error('កំពុងមានអ្នកប្រើប្រាស់ច្រើនពេក។ សូមព្យាយាមម្តងទៀតក្នុងរយៈពេល ១ នាទី។');
+            try {
+                const response = await fetch('/api/sheets?action=list');
+
+                if (response.status === 429) {
+                    throw new Error('កំពុងមានអ្នកប្រើប្រាស់ច្រើនពេក។ សូមព្យាយាមម្តងទៀតក្នុងរយៈពេល ១ នាទី។');
+                }
+
+                if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
+
+                const data = await response.json();
+                return data.sheets || [];
+            } catch (error) {
+                console.error('Error fetching sheet names:', error);
+                showError('មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។');
+                return [];
+            }
         }
-        
-        if (!response.ok) throw new Error('មិនអាចទាញយកឈ្មោះស៊ីតបានទេ');
-        
-        const data = await response.json();
-        return data.sheets || [];
-    } catch (error) {
-        console.error('Error fetching sheet names:', error);
-        showError('មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។');
-        return [];
-    }
-}
 
         // ជំនួស function fetchSheetData ចាស់ដោយ function ថ្មីនេះ:
-async function fetchSheetData(sheetName) {
-    try {
-        // ប្រើ API route ថ្មីជំនួសវិញ
-        const response = await fetch(`/api/sheets?sheet=${encodeURIComponent(sheetName)}`);
-        
-        if (response.status === 429) {
-            throw new Error('កំពុងមានអ្នកប្រើប្រាស់ច្រើនពេក។ សូមព្យាយាមម្តងទៀតក្នុងរយៈពេល ១ នាទី។');
+        async function fetchSheetData(sheetName) {
+            try {
+                // ប្រើ API route ថ្មីជំនួសវិញ
+                const response = await fetch(`/api/sheets?sheet=${encodeURIComponent(sheetName)}`);
+
+                if (response.status === 429) {
+                    throw new Error('កំពុងមានអ្នកប្រើប្រាស់ច្រើនពេក។ សូមព្យាយាមម្តងទៀតក្នុងរយៈពេល ១ នាទី។');
+                }
+
+                if (!response.ok) {
+                    throw new Error('មិនអាចទាញយកទិន្នន័យបានទេ');
+                }
+
+                const data = await response.json();
+                return data.values || [];
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                throw error;
+            }
         }
-        
-        if (!response.ok) {
-            throw new Error('មិនអាចទាញយកទិន្នន័យបានទេ');
+
+        // បន្ថែម Data Cache class
+        class DataCache {
+            constructor() {
+                this.cache = new Map();
+                this.cacheDuration = 5 * 60 * 1000; // 5 minutes
+            }
+
+            async getData(sheetName) {
+                const cached = this.cache.get(sheetName);
+                if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
+                    return cached.data;
+                }
+
+                const data = await fetchSheetData(sheetName);
+                this.cache.set(sheetName, {
+                    data: data,
+                    timestamp: Date.now()
+                });
+
+                return data;
+            }
         }
-        
-        const data = await response.json();
-        return data.values || [];
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-    }
-}
 
-// បន្ថែម Data Cache class
-class DataCache {
-    constructor() {
-        this.cache = new Map();
-        this.cacheDuration = 5 * 60 * 1000; // 5 minutes
-    }
+        const dataCache = new DataCache();
 
-    async getData(sheetName) {
-        const cached = this.cache.get(sheetName);
-        if (cached && Date.now() - cached.timestamp < this.cacheDuration) {
-            return cached.data;
+        // ប្រើ cache ក្នុងការហៅ API
+        async function loadStudentData(month) {
+            return await dataCache.getData(month);
         }
-        
-        const data = await fetchSheetData(sheetName);
-        this.cache.set(sheetName, {
-            data: data,
-            timestamp: Date.now()
-        });
-        
-        return data;
-    }
-}
-
-const dataCache = new DataCache();
-
-// ប្រើ cache ក្នុងការហៅ API
-async function loadStudentData(month) {
-    return await dataCache.getData(month);
-}
 
         async function validateLogin(username, password) {
             if (username !== 'samaki') {
@@ -820,8 +853,8 @@ async function loadStudentData(month) {
                 return { success: false, message: 'មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ' };
             }
 
-            const scoreSheets = AppState.sheetNames.filter(sheet => 
-                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications'
+            const scoreSheets = AppState.sheetNames.filter(sheet =>
+                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !=='Calendar' && sheet !== 'forTeacher'
             );
 
             if (scoreSheets.length === 0) {
@@ -863,24 +896,24 @@ async function loadStudentData(month) {
         // ✅ Auto-login Function (កែប្រែដើម្បីដំណើរការល្អ)
         async function autoLogin(session) {
             console.log('Auto-login started for:', session.studentName);
-            
+
             AppState.currentStudentId = session.studentId;
             AppState.studentName = session.studentName;
-            
+
             showSuccess('កំពុងចូលដោយស្វ័យប្រវត្តិ...');
-            
+
             // បង្ហាញ dashboard
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('dashboardContainer').classList.add('show');
             document.getElementById('welcomeText').textContent = `សូមស្វាគមន៍ ${session.studentName}`;
-            
+
             // បង្ហាញព័ត៌មានអំពី session
             const remainingDays = SessionManager.getRemainingDays();
             const sessionInfo = document.getElementById('sessionInfo');
             const sessionText = document.getElementById('sessionText');
             sessionText.textContent = `ការចូលស្វ័យប្រវត្តិនឹងផុតកំណត់ក្នុងរយៈពេល ${remainingDays} ថ្ងៃទៀត`;
             sessionInfo.style.display = 'block';
-            
+
             // ផ្ទុកទិន្នន័យសិស្ស
             await initializeDashboard();
         }
@@ -889,7 +922,7 @@ async function loadStudentData(month) {
         window.addEventListener('DOMContentLoaded', async () => {
             console.log('Page loaded, checking for existing session...');
             const session = SessionManager.get();
-            
+
             if (session) {
                 console.log('Existing session found, auto-logging in...');
                 await autoLogin(session);
@@ -917,24 +950,24 @@ async function loadStudentData(month) {
             if (result.success) {
                 // រក្សាទុក session
                 SessionManager.save(result.studentId, result.studentName, rememberMe);
-                
+
                 AppState.currentStudentId = result.studentId;
                 AppState.studentName = result.studentName;
-                
+
                 showSuccess('ចូលប្រព័ន្ធជោគជ័យ!');
-                
+
                 setTimeout(async () => {
                     document.getElementById('loginContainer').style.display = 'none';
                     document.getElementById('dashboardContainer').classList.add('show');
                     document.getElementById('welcomeText').textContent = `សូមស្វាគមន៍ ${result.studentName}`;
-                    
+
                     if (rememberMe) {
                         const sessionInfo = document.getElementById('sessionInfo');
                         const sessionText = document.getElementById('sessionText');
                         sessionText.textContent = `អ្នកនឹងចូលដោយស្វ័យប្រវត្តិក្នុងរយៈពេល ៩០ ថ្ងៃខាងមុខ`;
                         sessionInfo.style.display = 'block';
                     }
-                    
+
                     await initializeDashboard();
                 }, 1000);
             } else {
@@ -964,16 +997,16 @@ async function loadStudentData(month) {
 
         async function initializeDashboard() {
             const monthSelect = document.getElementById('monthSelect');
-            
+
             if (AppState.sheetNames.length === 0) {
                 AppState.sheetNames = await fetchSheetNames();
             }
-            
-            const scoreSheets = AppState.sheetNames.filter(sheet => 
+
+            const scoreSheets = AppState.sheetNames.filter(sheet =>
                 !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications'
             );
 
-            monthSelect.innerHTML = scoreSheets.map(sheet => 
+            monthSelect.innerHTML = scoreSheets.map(sheet =>
                 `<option value="${sheet}">${sheet}</option>`
             ).join('');
 
@@ -1008,7 +1041,7 @@ async function loadStudentData(month) {
             studentInfo.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-2x"></i><p>កំពុងផ្ទុក...</p></div>';
 
             const data = await fetchSheetData(month);
-            
+
             if (data.length === 0) {
                 studentInfo.innerHTML = '<p style="color: var(--absent-color); text-align: center;">មិនអាចទាញយកទិន្នន័យបានទេ</p>';
                 return;
@@ -1207,7 +1240,7 @@ async function loadStudentData(month) {
 
         async function loadScheduleData() {
             const scheduleSection = document.getElementById('scheduleSection');
-            
+
             scheduleSection.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-2x"></i><p>កំពុងផ្ទុកកាលវិភាគសិក្សា...</p></div>';
             scheduleSection.classList.add('show');
 
@@ -1258,18 +1291,18 @@ async function loadStudentData(month) {
             morningTimes.forEach((time, timeIndex) => {
                 scheduleHTML += '<tr>';
                 scheduleHTML += `<td class="time-col">${time}</td>`;
-                
+
                 days.forEach((day, dayIndex) => {
                     const columnIndex = 1 + (dayIndex * 8) + timeIndex;
                     const subject = classRow[columnIndex] || '';
-                    
+
                     if (subject.trim() === '') {
                         scheduleHTML += '<td class="empty-cell morning-session">-</td>';
                     } else {
                         scheduleHTML += `<td class="subject-cell morning-session">${subject}</td>`;
                     }
                 });
-                
+
                 scheduleHTML += '</tr>';
             });
 
@@ -1278,18 +1311,18 @@ async function loadStudentData(month) {
             afternoonTimes.forEach((time, timeIndex) => {
                 scheduleHTML += '<tr>';
                 scheduleHTML += `<td class="time-col">${time}</td>`;
-                
+
                 days.forEach((day, dayIndex) => {
                     const columnIndex = 1 + (dayIndex * 8) + 4 + timeIndex;
                     const subject = classRow[columnIndex] || '';
-                    
+
                     if (subject.trim() === '') {
                         scheduleHTML += '<td class="empty-cell afternoon-session">-</td>';
                     } else {
                         scheduleHTML += `<td class="subject-cell afternoon-session">${subject}</td>`;
                     }
                 });
-                
+
                 scheduleHTML += '</tr>';
             });
 
@@ -1305,5 +1338,3 @@ async function loadStudentData(month) {
 </body>
 
 </html>
-
-
