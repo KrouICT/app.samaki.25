@@ -854,8 +854,14 @@
             }
 
             const scoreSheets = AppState.sheetNames.filter(sheet =>
-                !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !=='Calendar' && sheet !== 'forTeacher'
+                !sheet.startsWith('Att-') &&
+                sheet !== 'userLogin' &&
+                sheet !== 'ClassTimes' &&
+                sheet !== 'Notifications' &&
+                sheet !== 'Calendar' &&
+                sheet !== 'forTeacher'
             );
+
 
             if (scoreSheets.length === 0) {
                 return { success: false, message: 'មិនមានទិន្នន័យក្នុងប្រព័ន្ធ' };
