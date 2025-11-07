@@ -2322,580 +2322,490 @@
         }
 
         class NavigationController {
-            constructor() {
-                this.navLinks = document.querySelectorAll('.nav-link');
-                this.bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-                this.contentContainer = document.getElementById('content');
-                this.navbarCollapse = document.getElementById('navbarNav');
-            }
+    constructor() {
+        this.navLinks = document.querySelectorAll('.nav-link');
+        this.bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+        this.contentContainer = document.getElementById('content');
+        this.navbarCollapse = document.getElementById('navbarNav');
+    }
 
-            init() {
-                this.setupEventListeners();
-                this.loadContent('home');
-                this.toggleSlideshow('home');
-            }
+    init() {
+        this.setupEventListeners();
+        this.loadContent('home');
+        this.toggleSlideshow('home');
+    }
 
-            setupEventListeners() {
-                this.navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const section = link.getAttribute('data-section');
-                        this.navigateTo(section);
-                    });
-                });
+    setupEventListeners() {
+        this.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                this.navigateTo(section);
+            });
+        });
 
-                this.bottomNavItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const section = item.getAttribute('data-section');
-                        this.navigateTo(section);
-                    });
-                });
-            }
+        this.bottomNavItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.getAttribute('data-section');
+                this.navigateTo(section);
+            });
+        });
+    }
 
-            navigateTo(section) {
-                if (AppState.isLoading) return;
+    navigateTo(section) {
+        if (AppState.isLoading) return;
 
-                this.setActiveSection(section);
-                this.loadContent(section);
-                this.toggleSlideshow(section);
-                this.closeNavbar();
-                this.scrollToContent();
-            }
+        // ✅ ប្រសិនជា track-child redirect ទៅ tracking.html
+        if (section === 'track-child') {
+            window.location.href = 'tracking.html';
+            return;
+        }
 
-            setActiveSection(section) {
-                this.navLinks.forEach(link => link.classList.remove('active'));
-                this.bottomNavItems.forEach(item => item.classList.remove('active'));
+        this.setActiveSection(section);
+        this.loadContent(section);
+        this.toggleSlideshow(section);
+        this.closeNavbar();
+        this.scrollToContent();
+    }
 
-                const activeNavLink = document.querySelector(`.nav-link[data-section="${section}"]`);
-                const activeBottomItem = document.querySelector(`.bottom-nav-item[data-section="${section}"]`);
+    setActiveSection(section) {
+        this.navLinks.forEach(link => link.classList.remove('active'));
+        this.bottomNavItems.forEach(item => item.classList.remove('active'));
 
-                if (activeNavLink) activeNavLink.classList.add('active');
-                if (activeBottomItem) activeBottomItem.classList.add('active');
+        const activeNavLink = document.querySelector(`.nav-link[data-section="${section}"]`);
+        const activeBottomItem = document.querySelector(`.bottom-nav-item[data-section="${section}"]`);
 
-                AppState.currentSection = section;
-            }
+        if (activeNavLink) activeNavLink.classList.add('active');
+        if (activeBottomItem) activeBottomItem.classList.add('active');
 
-            loadContent(section) {
-                AppState.isLoading = true;
+        AppState.currentSection = section;
+    }
 
-                this.contentContainer.innerHTML = `
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin fa-3x"></i>
-                        <p>កំពុងផ្ទុក...</p>
-                    </div>
-                `;
+    loadContent(section) {
+        AppState.isLoading = true;
 
-                setTimeout(() => {
-                    this.renderContent(section);
-                    AppState.isLoading = false;
-                }, 300);
-            }
-
-            async renderContent(section) {
-                const content = this.getContentTemplate(section);
-                this.contentContainer.innerHTML = content;
-
-                if (section === 'home') {
-                    this.initializeHomeChart();
-                } else if (section === 'track-child') {
-                    await this.initializeTrackChild();
-                } else if (section === 'calendar') {
-                    await this.initializeCalendar();
-                }
-            }
-
-            getContentTemplate(section) {
-                const templates = {
-                    home: `
-            <h2>សូមស្វាគមន៍</h2>
-            <p class="home-intro">មកកាន់អនុវិទ្យាល័យសាមគ្គី! សាលាអនុវិទ្យាល័យសាមគ្គី មានទីតាំងស្ថិតនៅតាមបណ្ដោយផ្លូវជាតិលេខ៥៧.៧ ភូមិចំការចេក ឃុំស៊ុង ស្រុកសំឡូត ខេត្តបាត់ដំបង  ស្ថិតនៅចម្ងាយប្រមាណ១៦គីឡូម៉ែត្រពីការិយាល័យអប់រំ យុវជន និងកីឡានៃរដ្ឋបាលស្រុកសំឡូត លេខកូដសាលា 02110503702។
-                គ្រូបង្រៀនសរុបចំនួន១៥នាក់ ក្នុងនោះស្រី៦នាក់។ មានអគារសិក្សា២ខ្នង បន្ទប់រៀនសរុប៩បន្ទប់
-                ទីចាត់ការ១បន្ទប់ បណ្ណាល័យ១បន្ទប់ បន្ទប់សិក្សាកុំព្យូទ័រ១បន្ទប់ និងបន្ទប់ទឹក៤បន្ទប់។
-            </p>
-            
-            <h4><i class="fas fa-graduation-cap"></i> មុខវិជ្ជាសិក្សា</h4>
-            <div class="subjects-grid">
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-book"></i></div>
-                    <h3 class="subject-title">ភាសាខ្មែរ</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-calculator"></i></div>
-                    <h3 class="subject-title">គណិតវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-atom"></i></div>
-                    <h3 class="subject-title">រូបវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-flask"></i></div>
-                    <h3 class="subject-title">គីមីវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-leaf"></i></div>
-                    <h3 class="subject-title">ជីវវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-globe"></i></div>
-                    <h3 class="subject-title">ផែនដីវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-history"></i></div>
-                    <h3 class="subject-title">ប្រវត្តិវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-landmark"></i></div>
-                    <h3 class="subject-title">ភូមិវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-balance-scale"></i></div>
-                    <h3 class="subject-title">សីលធម៌-ពលរដ្ឋវិជ្ជា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-language"></i></div>
-                    <h3 class="subject-title">ភាសាអង់គ្លេស</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-users"></i></div>
-                    <h3 class="subject-title">បំណិនជីវិត</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-dumbbell"></i></div>
-                    <h3 class="subject-title">អប់រំកាយ និងកីឡា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-stroopwafel"></i></div>
-                    <h3 class="subject-title">គេហវិទ្យា</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-laptop"></i></div>
-                    <h3 class="subject-title">កុំព្យូទ័រ (ICT)</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-volleyball-ball"></i></div>
-                    <h3 class="subject-title">បាល់ទះ</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-bowling-ball"></i></div>
-                    <h3 class="subject-title">ប៉េតង់</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-arrows-alt-h"></i></div>
-                    <h3 class="subject-title">លោតចម្ងាយ</h3>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon"><i class="fas fa-book"></i></div>
-                    <h3 class="subject-title">បណ្ណាល័យ</h3>
-                </div>
+        this.contentContainer.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+                <p>កំពុងផ្ទុក...</p>
             </div>
+        `;
 
-            <h4><i class="fas fa-chart-line"></i> ស្ថិតិសិស្សតាមឆ្នាំសិក្សា</h4>
-            <table class="enrollment-table">
-                <thead>
-                    <tr>
-                        <th>ឆ្នាំសិក្សា</th>
-                        <th>សរុប (នាក់)</th>
-                        <th>ស្រី (នាក់)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2020-2021</td>
-                        <td>357</td>
-                        <td>184</td>
-                    </tr>
-                    <tr>
-                        <td>2021-2022</td>
-                        <td>394</td>
-                        <td>213</td>
-                    </tr>
-                    <tr>
-                        <td>2022-2023</td>
-                        <td>381</td>
-                        <td>221</td>
-                    </tr>
-                    <tr>
-                        <td>2023-2024</td>
-                        <td>383</td>
-                        <td>222</td>
-                    </tr>
-                    <tr>
-                        <td>2024-2025</td>
-                        <td>390</td>
-                        <td>201</td>
-                    </tr>
-                </tbody>
-            </table>
+        setTimeout(() => {
+            this.renderContent(section);
+            AppState.isLoading = false;
+        }, 300);
+    }
 
-            <h4><i class="fas fa-chart-bar"></i> ក្រាបស្ថិតិសិស្ស</h4>
-            <div class="chart-container">
-                <canvas id="homeStudentsChart"></canvas>
-            </div>
-            
-            <!-- Global Copyright -->
-            <div class="global-copyright">
-                <p><strong>Developed & Designed by My Langdy</strong></p>
-                <p class="copyright-icon">
-                    <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+    async renderContent(section) {
+        const content = this.getContentTemplate(section);
+        this.contentContainer.innerHTML = content;
+
+        if (section === 'home') {
+            this.initializeHomeChart();
+        } else if (section === 'calendar') {
+            await this.initializeCalendar();
+        }
+        // ✅ លុប track-child initialization ចេញ
+    }
+
+    getContentTemplate(section) {
+        const templates = {
+            home: `
+                <h2>សូមស្វាគមន៍</h2>
+                <p class="home-intro">មកកាន់អនុវិទ្យាល័យសាមគ្គី! សាលាអនុវិទ្យាល័យសាមគ្គី មានទីតាំងស្ថិតនៅតាមបណ្តោយផ្លូវជាតិលេខ១៧១ ភូមិចំការចេក ឃុំសួរឃុំ ស្រុកសំឡូត ខេត្តបាត់ដំបង ស្ថិតនៅចម្ងាយប្រមាណ១៦គីឡូម៉ែត្រពីការិយាល័យអប៊ុំរងរដ្ឋបាលស្រុកសំឡូត លេខកូដសាលា 02110503702។
+                    គ្រូបង្រៀនសរុបចំនួន១៥នាក់ ក្នុងនោះស្រី៦នាក់។ មានអគារសិក្សា២អង្គ បន្ទប់រៀនសរុប៩បន្ទប់
+                    ទីចាត់ការ១បន្ទប់ បណ្ណាល័យ១បន្ទប់ បន្ទប់សិក្សាកុំព្យូទ័រ១បន្ទប់ និងបន្ទប់ទឹក៤បន្ទប់។
                 </p>
-            </div>
-        `,
-                    calendar: `
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="color: var(--primary-green); font-family: 'Moul', sans-serif; margin-bottom: 5px;">
-                    <i class="fas fa-calendar-alt"></i> ប្រតិទិនអនុវិទ្យាល័យសាមគ្គី
-                </h2>
-                <p style="color: #666; font-size: 0.95rem;">កាលបរិច្ឆេទថ្ងៃឈប់សម្រាក និងព្រឹត្តិការណ៍សំខាន់ៗ</p>
-            </div>
-            
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="calendar-nav">
-                        <button id="prevMonth"><i class="fas fa-chevron-left"></i> មុន</button>
-                        <h2 class="calendar-title" id="calendarTitle">កំពុងផ្ទុក...</h2>
-                        <button id="nextMonth">បន្ទាប់ <i class="fas fa-chevron-right"></i></button>
+                
+                <h4><i class="fas fa-graduation-cap"></i> មុខវិជ្ជាសិក្សា</h4>
+                <div class="subjects-grid">
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-book"></i></div>
+                        <h3 class="subject-title">ភាសាខ្មែរ</h3>
                     </div>
-                    <button id="todayBtn" style="background: var(--primary-blue);">
-                        <i class="fas fa-calendar-day"></i> ចូលទៅថ្ងៃនេះ
-                    </button>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-calculator"></i></div>
+                        <h3 class="subject-title">គណិតវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-atom"></i></div>
+                        <h3 class="subject-title">រូបវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-flask"></i></div>
+                        <h3 class="subject-title">គីមីវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-leaf"></i></div>
+                        <h3 class="subject-title">ជីវវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-globe"></i></div>
+                        <h3 class="subject-title">ផែនដីវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-history"></i></div>
+                        <h3 class="subject-title">ប្រវត្តិវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-landmark"></i></div>
+                        <h3 class="subject-title">ភូមិវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-balance-scale"></i></div>
+                        <h3 class="subject-title">សីលធម៌-ពលរដ្ឋវិជ្ជា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-language"></i></div>
+                        <h3 class="subject-title">ភាសាអង់គ្លេស</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-users"></i></div>
+                        <h3 class="subject-title">បំណិនជីវិត</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-dumbbell"></i></div>
+                        <h3 class="subject-title">អប់រំកាយ និងកីឡា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-stroopwafel"></i></div>
+                        <h3 class="subject-title">គេហវិទ្យា</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-laptop"></i></div>
+                        <h3 class="subject-title">កុំព្យូទ័រ (ICT)</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-volleyball-ball"></i></div>
+                        <h3 class="subject-title">បាល់ទះ</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-bowling-ball"></i></div>
+                        <h3 class="subject-title">ប៉េតង់</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-arrows-alt-h"></i></div>
+                        <h3 class="subject-title">លោតចម្ងាយ</h3>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-icon"><i class="fas fa-book"></i></div>
+                        <h3 class="subject-title">បណ្ណាល័យ</h3>
+                    </div>
+                </div>
+
+                <h4><i class="fas fa-chart-line"></i> ស្ថិតិសិស្សតាមឆ្នាំសិក្សា</h4>
+                <table class="enrollment-table">
+                    <thead>
+                        <tr>
+                            <th>ឆ្នាំសិក្សា</th>
+                            <th>សរុប (នាក់)</th>
+                            <th>ស្រី (នាក់)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2020-2021</td>
+                            <td>357</td>
+                            <td>184</td>
+                        </tr>
+                        <tr>
+                            <td>2021-2022</td>
+                            <td>394</td>
+                            <td>213</td>
+                        </tr>
+                        <tr>
+                            <td>2022-2023</td>
+                            <td>381</td>
+                            <td>221</td>
+                        </tr>
+                        <tr>
+                            <td>2023-2024</td>
+                            <td>383</td>
+                            <td>222</td>
+                        </tr>
+                        <tr>
+                            <td>2024-2025</td>
+                            <td>390</td>
+                            <td>201</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4><i class="fas fa-chart-bar"></i> ក្រាបស្ថិតិសិស្ស</h4>
+                <div class="chart-container">
+                    <canvas id="homeStudentsChart"></canvas>
                 </div>
                 
-                <div class="calendar-grid" id="calendarGrid">
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin fa-2x"></i>
-                        <p>កំពុងផ្ទុកប្រតិទិន...</p>
-                    </div>
+                <div class="global-copyright">
+                    <p><strong>Developed & Designed by My Langdy</strong></p>
+                    <p class="copyright-icon">
+                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+                    </p>
+                </div>
+            `,
+            calendar: `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="color: var(--primary-green); font-family: 'Moul', sans-serif; margin-bottom: 5px;">
+                        <i class="fas fa-calendar-alt"></i> ប្រតិទិនអនុវិទ្យាល័យសាមគ្គី
+                    </h2>
+                    <p style="color: #666; font-size: 0.95rem;">កាលបរិច្ឆេទថ្ងៃឈប់សម្រាក និងព្រឹត្តិការណ៍សំខាន់ៗ</p>
                 </div>
                 
-                <div class="calendar-legend">
-                    <div class="legend-item">
-                        <div class="legend-color today"></div>
-                        <span>ថ្ងៃនេះ</span>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button id="prevMonth"><i class="fas fa-chevron-left"></i> មុន</button>
+                            <h2 class="calendar-title" id="calendarTitle">កំពុងផ្ទុក...</h2>
+                            <button id="nextMonth">បន្ទាប់ <i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <button id="todayBtn" style="background: var(--primary-blue);">
+                            <i class="fas fa-calendar-day"></i> ចូលទៅថ្ងៃនេះ
+                        </button>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color holiday"></div>
-                        <span>ថ្ងៃឈប់សម្រាក</span>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>កំពុងផ្ទុកប្រតិទិន...</p>
+                        </div>
                     </div>
-                    <div class="legend-item">
-                        <div class="legend-color event"></div>
-                        <span>ព្រឹត្តិការណ៍ធម្មតា</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 📋 Events List Section -->
-            <div class="calendar-events-section" id="calendarEventsSection">
-                <h3><i class="fas fa-list-ul"></i> ព្រឹត្តិការណ៍ខែនេះ</h3>
-                <div class="events-list" id="eventsList">
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin fa-2x"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Global Copyright -->
-            <div class="global-copyright">
-                <p><strong>Developed & Designed by My Langdy</strong></p>
-                <p class="copyright-icon">
-                    <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
-                </p>
-            </div>
-            
-            <!-- Event Detail Modal -->
-            <div class="event-modal" id="eventModal">
-                <div class="event-modal-content">
-                    <span class="event-modal-close" id="eventModalClose">&times;</span>
-                    <h3 class="event-modal-title" id="eventModalTitle"></h3>
-                    <p class="event-modal-date" id="eventModalDate"></p>
-                    <p class="event-modal-description" id="eventModalDescription"></p>
-                </div>
-            </div>
-        `,
-                    'track-child': `
-            <div class="welcome-section">
-                <h1 style="font-size:1.3rem;">📊 កម្មវិធីតាមដានពិន្ទុ និងវត្តមានសិស្ស</h1>
-                <p>តាមដានលទ្ធផលសិក្សា និងវត្តមានរបស់សិស្ស - ឆ្នាំសិក្សា២០២៥-២០២៦</p>
-                <a href="tracking.html" class="track-btn-simple">
-                    <i class="fas fa-child"></i>
-                    តាមដានកូនខ្ញុំ
-                </a>
-            </div>
-            <div class="track-filters">
-                <div class="filter-row">
-                    <div class="filter-group">
-                        <label for="monthSelect"><i class="fas fa-calendar-alt"></i> ជ្រើសរើសខែ</label>
-                        <select id="monthSelect">
-                            <option value="">-- ជ្រើសរើសខែ --</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="classLevel"><i class="fas fa-school"></i> កម្រិតថ្នាក់</label>
-                        <select id="classLevel">
-                            <option value="">-- ជ្រើសរើសថ្នាក់ --</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="track-content">
-                <div class="student-list-container">
-                    <div class="list-header"><i class="fas fa-list"></i> បញ្ជីសិស្ស</div>
-                    <div class="student-items" id="studentList">
-                        <div style="padding: 30px; text-align: center; color: #6b7280;">
-                            <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                            <p>សូមជ្រើសរើសខែ និងថ្នាក់រៀនដើម្បីមើលបញ្ជីសិស្ស</p>
+                    
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <div class="legend-color today"></div>
+                            <span>ថ្ងៃនេះ</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color holiday"></div>
+                            <span>ថ្ងៃឈប់សម្រាក</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color event"></div>
+                            <span>ព្រឹត្តិការណ៍ធម្មតា</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Global Copyright -->
-            <div class="global-copyright">
-                <p><strong>Developed & Designed by My Langdy</strong></p>
-                <p class="copyright-icon">
-                    <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
-                </p>
-            </div>
-        `,
-                    profile: `
-            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow);">
-                <h2><i class="fas fa-info-circle"></i> អំពីសាលា</h2>
-                <div style="margin-top: 30px;">
-                    <h3 style="color: var(--primary-green); margin-bottom: 15px;">ប្រវត្តិសាលា</h3>
-                    <p style="line-height: 1.8; color: #555;">សាលាអនុវិទ្យាល័យសាមគ្គីត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ២០០៤ ជាសាលារៀនដែលមានបេសកកម្មក្នុងការផ្តល់សេវាអប់រំសាធារណៈរបស់រដ្ឋកម្រិតមធ្យមសិក្សាបឋមភូមិ សម្រាប់កុមារនិងយុវជនក្នុងសហគមន៍។</p>
-                    
-                    <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ចក្ខុវិស័យ</h3>
-                    <p style="line-height: 1.8; color: #555;">ក្លាយជាស្ថាប័នផ្ដល់សេវាអប់រំរបស់រដ្ឋប្រកបដោយគុណភាពក្នុងការបណ្តុះបណ្តាលនិងអភិវឌ្ឍកុមារនិងយុវជនឱ្យក្លាយជាពលរដ្ឋដែលមានចំណេះដឹង គុណធម៌ និងទំនួលខុសត្រូវ។</p>
-                    
-                    <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ទំនាក់ទំនង</h3>
-                    <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក កែវ ប៊ុនធឿន នាយក: 087 418 898</p>
-                    <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក ទូច សុខខេង នាយករង: 087 418 898</p>
-                    <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោកស្រី ឌឹម សារិន លេខាធិការ: 087 418 898</p>
-                    <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក មី ឡងឌី គ្រូICT: 087 418 898</p>
-                    <p style="margin: 10px 0;"><i class="fas fa-envelope" style="color: var(--primary-green); margin-right: 10px;"></i> អ៊ីមែល: samaki-school@gmail.com</p>
-                    <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt" style="color: var(--primary-green); margin-right: 10px;"></i> អាសយដ្ឋាន: ភូមិចំការចេក ឃុំស៊ុង ស្រុកសំឡូត ខេត្តបាត់ដំបង</p>
+                
+                <div class="calendar-events-section" id="calendarEventsSection">
+                    <h3><i class="fas fa-list-ul"></i> ព្រឹត្តិការណ៍ខែនេះ</h3>
+                    <div class="events-list" id="eventsList">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Global Copyright -->
-            <div class="global-copyright">
-                <p><strong>Developed & Designed by My Langdy</strong></p>
-                <p class="copyright-icon">
-                    <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
-                </p>
-            </div>
-        `
-                };
+                
+                <div class="global-copyright">
+                    <p><strong>Developed & Designed by My Langdy</strong></p>
+                    <p class="copyright-icon">
+                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+                    </p>
+                </div>
+                
+                <div class="event-modal" id="eventModal">
+                    <div class="event-modal-content">
+                        <span class="event-modal-close" id="eventModalClose">&times;</span>
+                        <h3 class="event-modal-title" id="eventModalTitle"></h3>
+                        <p class="event-modal-date" id="eventModalDate"></p>
+                        <p class="event-modal-description" id="eventModalDescription"></p>
+                    </div>
+                </div>
+            `,
+            'track-child': `
+                <div class="welcome-section">
+                    <h1 style="font-size:1.5rem;">
+                        <i class="fas fa-chart-line"></i> តាមដានពិន្ទុ និងវត្តមានសិស្ស
+                    </h1>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin: 20px 0;">
+                        ចុចប៊ូតុងខាងក្រោមដើម្បីចូលទៅកាន់ប្រព័ន្ធតាមដានពិន្ទុ និងវត្តមានរបស់កូនអ្នក។ 
+                        អ្នកនឹងត្រូវចូលដោយប្រើអត្តលេខសិស្សជាលេខសម្ងាត់។
+                    </p>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="tracking.html" class="track-btn-simple" style="text-decoration: none;">
+                            <i class="fas fa-child"></i>
+                            តាមដានកូនឥឡូវនេះ
+                        </a>
+                    </div>
 
-                return templates[section] || templates.home;
-            }
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 12px; padding: 20px; margin: 30px 0;">
+                        <h3 style="color: #856404; margin: 0 0 15px 0; font-size: 1.1rem;">
+                            <i class="fas fa-info-circle"></i> របៀបប្រើប្រាស់
+                        </h3>
+                        <ol style="color: #856404; line-height: 2; margin: 0; padding-left: 20px;">
+                            <li><strong>ឈ្មោះអ្នកប្រើប្រាស់:</strong> samaki</li>
+                            <li><strong>លេខសម្ងាត់:</strong> អត្តលេខសិស្សរបស់កូនអ្នក (ឧទាហរណ៍: 001, 002, ...)</li>
+                            <li>ជ្រើសរើសខែដែលចង់មើលពិន្ទុ</li>
+                            <li>អាចមើលវត្តមាន និងកាលវិភាគសិក្សាបាន</li>
+                        </ol>
+                    </div>
 
-            initializeHomeChart() {
-                const canvas = document.getElementById('homeStudentsChart');
-                if (!canvas) return;
+                    <div style="background: #e8f5e9; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                        <h3 style="color: #2e7d32; margin: 0 0 15px 0; font-size: 1.1rem;">
+                            <i class="fas fa-shield-alt"></i> សុវត្ថិភាព
+                        </h3>
+                        <p style="color: #2e7d32; margin: 0; line-height: 1.8;">
+                            ទិន្នន័យរបស់សិស្សត្រូវបានការពារយ៉ាងល្អ។ មានតែឪពុកម្តាយដែលដឹងអត្តលេខសិស្សប៉ុណ្ណោះ
+                            ទើបអាចចូលមើលបាន។ ប្រព័ន្ធនឹងចងចាំការចូលរយៈពេល 90 ថ្ងៃ។
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="global-copyright">
+                    <p><strong>Developed & Designed by My Langdy</strong></p>
+                    <p class="copyright-icon">
+                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+                    </p>
+                </div>
+            `,
+            profile: `
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow);">
+                    <h2><i class="fas fa-info-circle"></i> អំពីសាលា</h2>
+                    <div style="margin-top: 30px;">
+                        <h3 style="color: var(--primary-green); margin-bottom: 15px;">ប្រវត្តិសាលា</h3>
+                        <p style="line-height: 1.8; color: #555;">សាលាអនុវិទ្យាល័យសាមគ្គីត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ២០០៤ ជាសាលារៀនដែលមានប្រសកកម្មក្នុងការផ្តល់សេវាអប់រំសាធារណៈដល់កុមារនិងយុវជនក្នុងសហគមន៍។</p>
+                        
+                        <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ចក្ខុវិស័យ</h3>
+                        <p style="line-height: 1.8; color: #555;">ក្លាយជាស្ថាប័នផ្តល់សេវាអប់រំប្រកបដោយគុណភាពក្នុងការបណ្តុះបណ្តាលនិងអភិវឌ្ឍកុមារនិងយុវជនឱ្យក្លាយជាពលរដ្ឋដែលមានចំណេះដឹង គុណធម៌ និងទំនួលខុសត្រូវ។</p>
+                        
+                        <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ទំនាក់ទំនង</h3>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក កែវ ឌុំទ្វីន នាយក: 087 418 898</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក ទូច សុខថេង នាយករង: 087 418 898</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោកស្រី ឌឹម សារិន លេខាធិការ: 087 418 898</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក មី ឡងឌី គ្រូICT: 087 418 898</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-envelope" style="color: var(--primary-green); margin-right: 10px;"></i> អ៊ីមែល: samaki-school@gmail.com</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt" style="color: var(--primary-green); margin-right: 10px;"></i> អាសយដ្ឋាន: ភូមិចំការចេក ឃុំសួរឃុំ ស្រុកសំឡូត ខេត្តបាត់ដំបង</p>
+                    </div>
+                </div>
+                
+                <div class="global-copyright">
+                    <p><strong>Developed & Designed by My Langdy</strong></p>
+                    <p class="copyright-icon">
+                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+                    </p>
+                </div>
+            `
+        };
 
-                if (AppState.chartInstance) {
-                    AppState.chartInstance.destroy();
-                }
+        return templates[section] || templates.home;
+    }
 
-                const ctx = canvas.getContext('2d');
-                AppState.chartInstance = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025'],
-                        datasets: [
-                            {
-                                label: 'សរុបសិស្ស (នាក់)',
-                                data: [357, 394, 381, 383, 390],
-                                backgroundColor: '#28a745',
-                                borderColor: '#1f8b3c',
-                                borderWidth: 2,
-                                borderRadius: 5
-                            },
-                            {
-                                label: 'ស្រី (នាក់)',
-                                data: [184, 213, 221, 222, 201],
-                                backgroundColor: '#1565C0',
-                                borderColor: '#104d9e',
-                                borderWidth: 2,
-                                borderRadius: 5
-                            }
-                        ]
+    initializeHomeChart() {
+        const canvas = document.getElementById('homeStudentsChart');
+        if (!canvas) return;
+
+        if (AppState.chartInstance) {
+            AppState.chartInstance.destroy();
+        }
+
+        const ctx = canvas.getContext('2d');
+        AppState.chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025'],
+                datasets: [
+                    {
+                        label: 'សរុបសិស្ស (នាក់)',
+                        data: [357, 394, 381, 383, 390],
+                        backgroundColor: '#28a745',
+                        borderColor: '#1f8b3c',
+                        borderWidth: 2,
+                        borderRadius: 5
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'ចំនួនសិស្ស (នាក់)',
-                                    font: {
-                                        family: "'Battambang', sans-serif",
-                                        size: 14
-                                    }
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'ឆ្នាំសិក្សា',
-                                    font: {
-                                        family: "'Battambang', sans-serif",
-                                        size: 14
-                                    }
-                                }
+                    {
+                        label: 'ស្រី (នាក់)',
+                        data: [184, 213, 221, 222, 201],
+                        backgroundColor: '#1565C0',
+                        borderColor: '#104d9e',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'ចំនួនសិស្ស (នាក់)',
+                            font: {
+                                family: "'Battambang', sans-serif",
+                                size: 14
                             }
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    font: {
-                                        family: "'Battambang', sans-serif",
-                                        size: 14
-                                    }
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'ស្ថិតិសិស្សតាមឆ្នាំ',
-                                font: {
-                                    family: "'Battambang', sans-serif",
-                                    size: 16,
-                                    weight: 'bold'
-                                }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'ឆ្នាំសិក្សា',
+                            font: {
+                                family: "'Battambang', sans-serif",
+                                size: 14
                             }
                         }
                     }
-                });
-            }
-
-            async initializeTrackChild() {
-                const monthSelect = document.getElementById('monthSelect');
-                const classLevel = document.getElementById('classLevel');
-                const studentList = document.getElementById('studentList');
-
-                if (!monthSelect || !classLevel || !studentList) {
-                    console.error('Track-child elements not found');
-                    return;
-                }
-
-                AppState.sheetNames = await fetchSheetNames();
-
-                if (AppState.sheetNames.length === 0) {
-                    studentList.innerHTML = '<div style="padding: 20px; text-align: center;"><p class="error-message">មិនអាចទាញយកទិន្នន័យបានទេ។ សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិត។</p></div>';
-                    return;
-                }
-
-                const scoreSheets = AppState.sheetNames.filter(sheet => !sheet.startsWith('Att-') && sheet !== 'userLogin' && sheet !== 'ClassTimes' && sheet !== 'Notifications' && sheet !== 'Calendar' && sheet !== 'forTeacher');
-
-                monthSelect.innerHTML = '<option value="">-- ជ្រើសរើសខែ --</option>' +
-                    scoreSheets.map(sheet => `<option value="${sheet}">${sheet}</option>`).join('');
-
-                const popupMonthSelect = document.getElementById('popupMonthSelect');
-                if (popupMonthSelect) {
-                    popupMonthSelect.innerHTML = scoreSheets.map(sheet => `<option value="${sheet}">${sheet}</option>`).join('');
-                }
-
-                monthSelect.addEventListener('change', async () => {
-                    const sheetName = monthSelect.value;
-                    if (!sheetName) {
-                        studentList.innerHTML = '<div style="padding: 30px; text-align: center; color: #6b7280;"><i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px;"></i><p>សូមជ្រើសរើសខែ និងថ្នាក់រៀនដើម្បីមើលបញ្ជីសិស្ស</p></div>';
-                        classLevel.innerHTML = '<option value="">-- ជ្រើសរើសថ្នាក់ --</option>';
-                        return;
-                    }
-
-                    studentList.innerHTML = '<div style="padding: 30px; text-align: center;"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--primary-green);"></i><p style="margin-top: 10px;">កំពុងផ្ទុក...</p></div>';
-
-                    AppState.currentMonth = sheetName;
-                    const data = await fetchSheetData(sheetName);
-                    AppState.currentSheetData = data;
-                    classLevel.innerHTML = '<option value="">-- ជ្រើសរើសថ្នាក់ --</option>';
-
-                    if (data.length <= 1) {
-                        studentList.innerHTML = '<div style="padding: 20px; text-align: center;"><p class="error-message">មិនមានទិន្នន័យសិស្សសម្រាប់ខែនេះ។</p></div>';
-                        return;
-                    }
-
-                    const classLevels = [...new Set(data.slice(1).map(row => row[3]).filter(Boolean))].sort();
-                    classLevel.innerHTML = '<option value="">-- ជ្រើសរើសថ្នាក់ --</option>' +
-                        classLevels.map(level => `<option value="${level}">${level}</option>`).join('');
-
-                    studentList.innerHTML = '<div style="padding: 30px; text-align: center; color: #6b7280;"><i class="fas fa-arrow-up" style="font-size: 2rem; margin-bottom: 10px;"></i><p>សូមជ្រើសរើសថ្នាក់រៀន</p></div>';
-                });
-
-                classLevel.addEventListener('change', () => {
-                    const selectedLevel = classLevel.value;
-                    if (!selectedLevel || !AppState.currentSheetData) {
-                        studentList.innerHTML = '<div style="padding: 30px; text-align: center; color: #6b7280;"><i class="fas fa-arrow-up" style="font-size: 2rem; margin-bottom: 10px;"></i><p>សូមជ្រើសរើសថ្នាក់រៀន</p></div>';
-                        return;
-                    }
-
-                    const filteredStudents = AppState.currentSheetData.slice(1).filter(row => row[3] === selectedLevel);
-                    if (filteredStudents.length === 0) {
-                        studentList.innerHTML = '<div style="padding: 20px; text-align: center;"><p class="error-message">មិនមានសិស្សនៅក្នុងថ្នាក់នេះ។</p></div>';
-                        return;
-                    }
-
-                    studentList.innerHTML = filteredStudents.map(student => `
-            <div class="student-item" data-id="${student[0]}" data-class="${student[3]}">
-                <div class="student-id"><i class="fas fa-id-card"></i> អត្តលេខ: ${student[0]}</div>
-                <div class="student-name"><i class="fas fa-user"></i> ឈ្មោះ: ${student[1] || 'មិនមានឈ្មោះ'}</div>
-                <div class="student-class"><i class="fas fa-school"></i> ថ្នាក់: ${student[3]}</div>
-            </div>
-        `).join('');
-                });
-
-                studentList.addEventListener('click', (event) => {
-                    const studentItem = event.target.closest('.student-item');
-                    if (!studentItem || !AppState.currentSheetData) return;
-
-                    AppState.currentStudentId = studentItem.dataset.id;
-                    AppState.currentStudentClass = studentItem.dataset.class;
-
-                    displayStudentDetails(AppState.currentSheetData, AppState.currentStudentId, AppState.currentMonth);
-
-                    const attendanceDetails = document.getElementById('attendanceDetails');
-                    if (attendanceDetails) {
-                        attendanceDetails.style.display = 'none';
-                    }
-
-                    const popup = document.getElementById('studentPopup');
-                    popup.classList.add('show');
-                });
-            }
-            async initializeCalendar() {
-                const calendar = new KhmerCalendarController();
-                await calendar.init();
-            }
-            closeNavbar() {
-                if (window.innerWidth <= 768 && this.navbarCollapse && this.navbarCollapse.classList.contains('show')) {
-                    const bsCollapse = bootstrap.Collapse.getInstance(this.navbarCollapse);
-                    if (bsCollapse) {
-                        bsCollapse.hide();
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                family: "'Battambang', sans-serif",
+                                size: 14
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'ស្ថិតិសិស្សតាមឆ្នាំ',
+                        font: {
+                            family: "'Battambang', sans-serif",
+                            size: 16,
+                            weight: 'bold'
+                        }
                     }
                 }
             }
+        });
+    }
 
-            scrollToContent() {
-                const headerHeight = document.querySelector('.header-bar').offsetHeight;
-                window.scrollTo({
-                    top: this.contentContainer.offsetTop - headerHeight - 10,
-                    behavior: 'smooth'
-                });
-            }
-            toggleSlideshow(section) {
-                const slideshow = document.querySelector('.slideshow-container');
-                if (!slideshow) return;
+    async initializeCalendar() {
+        const calendar = new KhmerCalendarController();
+        await calendar.init();
+    }
 
-                if (section === 'home') {
-                    slideshow.classList.remove('hidden');
-                } else {
-                    slideshow.classList.add('hidden');
-                }
+    closeNavbar() {
+        if (window.innerWidth <= 768 && this.navbarCollapse && this.navbarCollapse.classList.contains('show')) {
+            const bsCollapse = bootstrap.Collapse.getInstance(this.navbarCollapse);
+            if (bsCollapse) {
+                bsCollapse.hide();
             }
         }
+    }
+
+    scrollToContent() {
+        const headerHeight = document.querySelector('.header-bar').offsetHeight;
+        window.scrollTo({
+            top: this.contentContainer.offsetTop - headerHeight - 10,
+            behavior: 'smooth'
+        });
+    }
+
+    toggleSlideshow(section) {
+        const slideshow = document.querySelector('.slideshow-container');
+        if (!slideshow) return;
+
+        if (section === 'home') {
+            slideshow.classList.remove('hidden');
+        } else {
+            slideshow.classList.add('hidden');
+        }
+    }
+}
 
         async function fetchSheetNames() {
             try {
@@ -3453,3 +3363,4 @@
 </body>
 
 </html>
+
