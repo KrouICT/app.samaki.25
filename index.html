@@ -20,6 +20,14 @@
         href="https://fonts.googleapis.com/css2?family=Battambang:wght@100;300;400;700;900&family=Moul&family=Siemreap&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PWA Configuration -->
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="សាលាសាមគ្គី">
+<meta name="theme-color" content="#2C6E49">
     <style>
         :root {
             --primary-green: #2C6E49;
@@ -3327,6 +3335,143 @@
             app.init();
         }
     </script>
+
+    <!-- PWA Install Prompt -->
+<div id="installPrompt" style="display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #2C6E49, #4C956C); color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 9999; max-width: 90%; text-align: center; animation: slideUpPrompt 0.4s ease;">
+    <div style="margin-bottom: 10px;">
+        <i class="fas fa-mobile-alt" style="font-size: 2rem;"></i>
+    </div>
+    <p style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 600;">ដំឡើងជាកម្មវិធី</p>
+    <p style="margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.95;">ងាយស្រួលប្រើប្រាស់ និងលឿនជាងមុន!</p>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="installBtn" style="background: white; color: #2C6E49; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Battambang', sans-serif;">
+            <i class="fas fa-download"></i> ដំឡើង
+        </button>
+        <button id="dismissInstallBtn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Battambang', sans-serif;">
+            បន្ទាប់បន្សំ
+        </button>
+    </div>
+</div>
+
+<style>
+@keyframes slideUpPrompt {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 50px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+</style>
+
+<script>
+// PWA Installation & Service Worker Registration
+let deferredPrompt;
+const installPrompt = document.getElementById('installPrompt');
+const installBtn = document.getElementById('installBtn');
+const dismissBtn = document.getElementById('dismissInstallBtn');
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('Service Worker registered successfully:', registration.scope);
+                
+                // Check for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New content available, notify user
+                            if (confirm('មានកំណែថ្មី! តើចង់ធ្វើបច្ចុប្បន្នភាពឥឡូវនេះទេ?')) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}
+
+// Capture install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Check if user previously dismissed
+    const dismissed = localStorage.getItem('installPromptDismissed');
+    const dismissedTime = localStorage.getItem('installPromptDismissedTime');
+    
+    // Show prompt if not dismissed, or if 7 days passed
+    if (!dismissed || (dismissedTime && Date.now() - parseInt(dismissedTime) > 7 * 24 * 60 * 60 * 1000)) {
+        setTimeout(() => {
+            installPrompt.style.display = 'block';
+        }, 3000); // Show after 3 seconds
+    }
+});
+
+// Install button click
+if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+            alert('មិនអាចដំឡើងបានទេ។ សូមប្រើប្រាស់តាមរយៈ browser!');
+            return;
+        }
+        
+        installPrompt.style.display = 'none';
+        deferredPrompt.prompt();
+        
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to install prompt: ${outcome}`);
+        
+        if (outcome === 'accepted') {
+            localStorage.removeItem('installPromptDismissed');
+            localStorage.removeItem('installPromptDismissedTime');
+        }
+        
+        deferredPrompt = null;
+    });
+}
+
+// Dismiss button click
+if (dismissBtn) {
+    dismissBtn.addEventListener('click', () => {
+        installPrompt.style.display = 'none';
+        localStorage.setItem('installPromptDismissed', 'true');
+        localStorage.setItem('installPromptDismissedTime', Date.now().toString());
+    });
+}
+
+// Track successful installation
+window.addEventListener('appinstalled', () => {
+    console.log('PWA installed successfully!');
+    localStorage.removeItem('installPromptDismissed');
+    localStorage.removeItem('installPromptDismissedTime');
+    
+    // Optional: Show success message
+    const successMsg = document.createElement('div');
+    successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 10000; font-family: "Battambang", sans-serif;';
+    successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ដំឡើងជោគជ័យ!';
+    document.body.appendChild(successMsg);
+    
+    setTimeout(() => {
+        successMsg.remove();
+    }, 3000);
+});
+
+// Check if running as installed PWA
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('Running as installed PWA');
+    // Add any PWA-specific behavior here
+}
+</script>
 </body>
 
 </html>
