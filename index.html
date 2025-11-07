@@ -22,12 +22,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- PWA Configuration -->
-<link rel="manifest" href="/manifest.json">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="សាលាសាមគ្គី">
-<meta name="theme-color" content="#2C6E49">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="សាលាសាមគ្គី">
+    <meta name="theme-color" content="#2C6E49">
     <style>
         :root {
             --primary-green: #2C6E49;
@@ -784,7 +784,7 @@
             color: var(--secondary-blue);
         }
 
-        
+
         .popup-content {
             background: white;
             padding: 30px;
@@ -2022,7 +2022,7 @@
     <!-- Content Area -->
     <div id="content" class="container"></div>
 
-    
+
 
     <!-- Bottom Navigation -->
     <div class="bottom-menu">
@@ -2297,100 +2297,100 @@
         }
 
         class NavigationController {
-    constructor() {
-        this.navLinks = document.querySelectorAll('.nav-link');
-        this.bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-        this.contentContainer = document.getElementById('content');
-        this.navbarCollapse = document.getElementById('navbarNav');
-    }
+            constructor() {
+                this.navLinks = document.querySelectorAll('.nav-link');
+                this.bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+                this.contentContainer = document.getElementById('content');
+                this.navbarCollapse = document.getElementById('navbarNav');
+            }
 
-    init() {
-        this.setupEventListeners();
-        this.loadContent('home');
-        this.toggleSlideshow('home');
-    }
+            init() {
+                this.setupEventListeners();
+                this.loadContent('home');
+                this.toggleSlideshow('home');
+            }
 
-    setupEventListeners() {
-        this.navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.getAttribute('data-section');
-                this.navigateTo(section);
-            });
-        });
+            setupEventListeners() {
+                this.navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const section = link.getAttribute('data-section');
+                        this.navigateTo(section);
+                    });
+                });
 
-        this.bottomNavItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const section = item.getAttribute('data-section');
-                this.navigateTo(section);
-            });
-        });
-    }
+                this.bottomNavItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const section = item.getAttribute('data-section');
+                        this.navigateTo(section);
+                    });
+                });
+            }
 
-    navigateTo(section) {
-        if (AppState.isLoading) return;
+            navigateTo(section) {
+                if (AppState.isLoading) return;
 
-        // ✅ ប្រសិនជា track-child redirect ទៅ tracking.html
-        if (section === 'track-child') {
-            window.location.href = 'tracking.html';
-            return;
-        }
+                // ✅ ប្រសិនជា track-child redirect ទៅ tracking.html
+                if (section === 'track-child') {
+                    window.location.href = 'tracking.html';
+                    return;
+                }
 
-        this.setActiveSection(section);
-        this.loadContent(section);
-        this.toggleSlideshow(section);
-        this.closeNavbar();
-        this.scrollToContent();
-    }
+                this.setActiveSection(section);
+                this.loadContent(section);
+                this.toggleSlideshow(section);
+                this.closeNavbar();
+                this.scrollToContent();
+            }
 
-    setActiveSection(section) {
-        this.navLinks.forEach(link => link.classList.remove('active'));
-        this.bottomNavItems.forEach(item => item.classList.remove('active'));
+            setActiveSection(section) {
+                this.navLinks.forEach(link => link.classList.remove('active'));
+                this.bottomNavItems.forEach(item => item.classList.remove('active'));
 
-        const activeNavLink = document.querySelector(`.nav-link[data-section="${section}"]`);
-        const activeBottomItem = document.querySelector(`.bottom-nav-item[data-section="${section}"]`);
+                const activeNavLink = document.querySelector(`.nav-link[data-section="${section}"]`);
+                const activeBottomItem = document.querySelector(`.bottom-nav-item[data-section="${section}"]`);
 
-        if (activeNavLink) activeNavLink.classList.add('active');
-        if (activeBottomItem) activeBottomItem.classList.add('active');
+                if (activeNavLink) activeNavLink.classList.add('active');
+                if (activeBottomItem) activeBottomItem.classList.add('active');
 
-        AppState.currentSection = section;
-    }
+                AppState.currentSection = section;
+            }
 
-    loadContent(section) {
-        AppState.isLoading = true;
+            loadContent(section) {
+                AppState.isLoading = true;
 
-        this.contentContainer.innerHTML = `
+                this.contentContainer.innerHTML = `
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin fa-3x"></i>
                 <p>កំពុងផ្ទុក...</p>
             </div>
         `;
 
-        setTimeout(() => {
-            this.renderContent(section);
-            AppState.isLoading = false;
-        }, 300);
-    }
+                setTimeout(() => {
+                    this.renderContent(section);
+                    AppState.isLoading = false;
+                }, 300);
+            }
 
-    async renderContent(section) {
-        const content = this.getContentTemplate(section);
-        this.contentContainer.innerHTML = content;
+            async renderContent(section) {
+                const content = this.getContentTemplate(section);
+                this.contentContainer.innerHTML = content;
 
-        if (section === 'home') {
-            this.initializeHomeChart();
-        } else if (section === 'calendar') {
-            await this.initializeCalendar();
-        }
-        // ✅ លុប track-child initialization ចេញ
-    }
+                if (section === 'home') {
+                    this.initializeHomeChart();
+                } else if (section === 'calendar') {
+                    await this.initializeCalendar();
+                }
+                // ✅ លុប track-child initialization ចេញ
+            }
 
-    getContentTemplate(section) {
-        const templates = {
-            home: `
+            getContentTemplate(section) {
+                const templates = {
+                    home: `
                 <h2>សូមស្វាគមន៍</h2>
-                <p class="home-intro">មកកាន់អនុវិទ្យាល័យសាមគ្គី! សាលាអនុវិទ្យាល័យសាមគ្គី មានទីតាំងស្ថិតនៅតាមបណ្តោយផ្លូវជាតិលេខ១៧១ ភូមិចំការចេក ឃុំសួរឃុំ ស្រុកសំឡូត ខេត្តបាត់ដំបង ស្ថិតនៅចម្ងាយប្រមាណ១៦គីឡូម៉ែត្រពីការិយាល័យអប៊ុំរងរដ្ឋបាលស្រុកសំឡូត លេខកូដសាលា 02110503702។
-                    គ្រូបង្រៀនសរុបចំនួន១៥នាក់ ក្នុងនោះស្រី៦នាក់។ មានអគារសិក្សា២អង្គ បន្ទប់រៀនសរុប៩បន្ទប់
-                    ទីចាត់ការ១បន្ទប់ បណ្ណាល័យ១បន្ទប់ បន្ទប់សិក្សាកុំព្យូទ័រ១បន្ទប់ និងបន្ទប់ទឹក៤បន្ទប់។
+                <p class="home-intro">  សាលាអនុវិទ្យាល័យសាមគ្គី មានទីតាំងស្ថិតនៅតាមបណ្ដោយផ្លូវជាតិលេខ៥៧.៧ ភូមិចំការចេក ឃុំស៊ុង ស្រុកសំឡូត ខេត្តបាត់ដំបង  ស្ថិតនៅចម្ងាយប្រមាណ១៦គីឡូម៉ែត្រពីការិយាល័យអប់រំ យុវជន និងកីឡានៃរដ្ឋបាលស្រុកសំឡូត លេខកូដសាលា 02110503702។
+                            គ្រូបង្រៀនសរុបចំនួន១៥នាក់ ក្នុងនោះស្រី៦នាក់។ មានអគារសិក្សា២ខ្នង បន្ទប់រៀនសរុប៩បន្ទប់
+                            ទីចាត់ការ១បន្ទប់ បណ្ណាល័យ១បន្ទប់ បន្ទប់សិក្សាកុំព្យូទ័រ១បន្ទប់ និងបន្ទប់ទឹក៤បន្ទប់។
                 </p>
                 
                 <h4><i class="fas fa-graduation-cap"></i> មុខវិជ្ជាសិក្សា</h4>
@@ -2512,14 +2512,9 @@
                     <canvas id="homeStudentsChart"></canvas>
                 </div>
                 
-                <div class="global-copyright">
-                    <p><strong>Developed & Designed by My Langdy</strong></p>
-                    <p class="copyright-icon">
-                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
-                    </p>
-                </div>
+                
             `,
-            calendar: `
+                    calendar: `
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h2 style="color: var(--primary-green); font-family: 'Moul', sans-serif; margin-bottom: 5px;">
                         <i class="fas fa-calendar-alt"></i> ប្រតិទិនអនុវិទ្យាល័យសាមគ្គី
@@ -2571,12 +2566,7 @@
                     </div>
                 </div>
                 
-                <div class="global-copyright">
-                    <p><strong>Developed & Designed by My Langdy</strong></p>
-                    <p class="copyright-icon">
-                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
-                    </p>
-                </div>
+                
                 
                 <div class="event-modal" id="eventModal">
                     <div class="event-modal-content">
@@ -2587,7 +2577,7 @@
                     </div>
                 </div>
             `,
-            'track-child': `
+                    'track-child': `
                 <div class="welcome-section">
                     <h1 style="font-size:1.5rem;">
                         <i class="fas fa-chart-line"></i> តាមដានពិន្ទុ និងវត្តមានសិស្ស
@@ -2621,7 +2611,7 @@
                             <i class="fas fa-shield-alt"></i> សុវត្ថិភាព
                         </h3>
                         <p style="color: #2e7d32; margin: 0; line-height: 1.8;">
-                            ទិន្នន័យរបស់សិស្សត្រូវបានការពារយ៉ាងល្អ។ មានតែឪពុកម្តាយដែលដឹងអត្តលេខសិស្សប៉ុណ្ណោះ
+                            មានតែឪពុកម្តាយដែលដឹងអត្តលេខសិស្សប៉ុណ្ណោះ
                             ទើបអាចចូលមើលបាន។ ប្រព័ន្ធនឹងចងចាំការចូលរយៈពេល 90 ថ្ងៃ។
                         </p>
                     </div>
@@ -2630,157 +2620,155 @@
                 <div class="global-copyright">
                     <p><strong>Developed & Designed by My Langdy</strong></p>
                     <p class="copyright-icon">
-                        <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
+                        <i class="fas fa-code"></i> វេបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
                     </p>
                 </div>
             `,
-            profile: `
+                    profile: `
                 <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow);">
                     <h2><i class="fas fa-info-circle"></i> អំពីសាលា</h2>
                     <div style="margin-top: 30px;">
                         <h3 style="color: var(--primary-green); margin-bottom: 15px;">ប្រវត្តិសាលា</h3>
-                        <p style="line-height: 1.8; color: #555;">សាលាអនុវិទ្យាល័យសាមគ្គីត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ២០០៤ ជាសាលារៀនដែលមានប្រសកកម្មក្នុងការផ្តល់សេវាអប់រំសាធារណៈដល់កុមារនិងយុវជនក្នុងសហគមន៍។</p>
+                        <p style="line-height: 1.8; color: #555;">សាលាអនុវិទ្យាល័យសាមគ្គីត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ២០០៤ ជាសាលារៀនដែលមានបេសកកម្មក្នុងការផ្តល់សេវាអប់រំសាធារណៈក្នុងសហគមន៍។</p>
                         
                         <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ចក្ខុវិស័យ</h3>
-                        <p style="line-height: 1.8; color: #555;">ក្លាយជាស្ថាប័នផ្តល់សេវាអប់រំប្រកបដោយគុណភាពក្នុងការបណ្តុះបណ្តាលនិងអភិវឌ្ឍកុមារនិងយុវជនឱ្យក្លាយជាពលរដ្ឋដែលមានចំណេះដឹង គុណធម៌ និងទំនួលខុសត្រូវ។</p>
+                        <p style="line-height: 1.8; color: #555;">ក្លាយជាស្ថាប័នផ្តល់សេវាអប់រំប្រកបដោយគុណភាពក្នុងការបណ្តុះបណ្តាលនិងអភិវឌ្ឍមូលធនមនុស្សឱ្យក្លាយជាពលរដ្ឋដែលមានចំណេះដឹង គុណធម៌ និងទំនួលខុសត្រូវ។</p>
                         
                         <h3 style="color: var(--primary-green); margin-top: 30px; margin-bottom: 15px;">ទំនាក់ទំនង</h3>
-                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក កែវ ឌុំទ្វីន នាយក: 087 418 898</p>
-                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក ទូច សុខថេង នាយករង: 087 418 898</p>
-                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោកស្រី ឌឹម សារិន លេខាធិការ: 087 418 898</p>
-                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក មី ឡងឌី គ្រូICT: 087 418 898</p>
-                        <p style="margin: 10px 0;"><i class="fas fa-envelope" style="color: var(--primary-green); margin-right: 10px;"></i> អ៊ីមែល: samaki-school@gmail.com</p>
-                        <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt" style="color: var(--primary-green); margin-right: 10px;"></i> អាសយដ្ឋាន: ភូមិចំការចេក ឃុំសួរឃុំ ស្រុកសំឡូត ខេត្តបាត់ដំបង</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក កែវ ប៊ុនធឿន នាយក: 095 897 775</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-phone" style="color: var(--primary-green); margin-right: 10px;"></i> លោក ទូច សុខខេង នាយករង: 088 444 6748</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-envelope" style="color: var(--primary-green); margin-right: 10px;"></i> វេបសាយ: www.samakischool.site</p>
+                        <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt" style="color: var(--primary-green); margin-right: 10px;"></i> អាសយដ្ឋាន: ភូមិចំការចេក ឃុំស៊ុង ស្រុកសំឡូត ខេត្តបាត់ដំបង ព្រះរាជាណាចក្រកម្ពុជា</p>
                     </div>
                 </div>
                 
                 <div class="global-copyright">
-                    <p><strong>Developed & Designed by My Langdy</strong></p>
+                    <p><strong>Developed & Designed by My Langdy - ICT Teacher🧑‍💻</strong></p>
                     <p class="copyright-icon">
                         <i class="fas fa-code"></i> វែបសាយអនុវិទ្យាល័យសាមគ្គី © 2025
                     </p>
                 </div>
             `
-        };
+                };
 
-        return templates[section] || templates.home;
-    }
+                return templates[section] || templates.home;
+            }
 
-    initializeHomeChart() {
-        const canvas = document.getElementById('homeStudentsChart');
-        if (!canvas) return;
+            initializeHomeChart() {
+                const canvas = document.getElementById('homeStudentsChart');
+                if (!canvas) return;
 
-        if (AppState.chartInstance) {
-            AppState.chartInstance.destroy();
-        }
+                if (AppState.chartInstance) {
+                    AppState.chartInstance.destroy();
+                }
 
-        const ctx = canvas.getContext('2d');
-        AppState.chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025'],
-                datasets: [
-                    {
-                        label: 'សរុបសិស្ស (នាក់)',
-                        data: [357, 394, 381, 383, 390],
-                        backgroundColor: '#28a745',
-                        borderColor: '#1f8b3c',
-                        borderWidth: 2,
-                        borderRadius: 5
+                const ctx = canvas.getContext('2d');
+                AppState.chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['2020-2021', '2021-2022', '2022-2023', '2023-2024', '2024-2025'],
+                        datasets: [
+                            {
+                                label: 'សរុបសិស្ស (នាក់)',
+                                data: [357, 394, 381, 383, 390],
+                                backgroundColor: '#28a745',
+                                borderColor: '#1f8b3c',
+                                borderWidth: 2,
+                                borderRadius: 5
+                            },
+                            {
+                                label: 'ស្រី (នាក់)',
+                                data: [184, 213, 221, 222, 201],
+                                backgroundColor: '#1565C0',
+                                borderColor: '#104d9e',
+                                borderWidth: 2,
+                                borderRadius: 5
+                            }
+                        ]
                     },
-                    {
-                        label: 'ស្រី (នាក់)',
-                        data: [184, 213, 221, 222, 201],
-                        backgroundColor: '#1565C0',
-                        borderColor: '#104d9e',
-                        borderWidth: 2,
-                        borderRadius: 5
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'ចំនួនសិស្ស (នាក់)',
+                                    font: {
+                                        family: "'Battambang', sans-serif",
+                                        size: 14
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'ឆ្នាំសិក្សា',
+                                    font: {
+                                        family: "'Battambang', sans-serif",
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        family: "'Battambang', sans-serif",
+                                        size: 14
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'ស្ថិតិសិស្សតាមឆ្នាំ',
+                                font: {
+                                    family: "'Battambang', sans-serif",
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'ចំនួនសិស្ស (នាក់)',
-                            font: {
-                                family: "'Battambang', sans-serif",
-                                size: 14
-                            }
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'ឆ្នាំសិក្សា',
-                            font: {
-                                family: "'Battambang', sans-serif",
-                                size: 14
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: "'Battambang', sans-serif",
-                                size: 14
-                            }
-                        }
-                    },
-                    title: {
-                        display: true,
-                        text: 'ស្ថិតិសិស្សតាមឆ្នាំ',
-                        font: {
-                            family: "'Battambang', sans-serif",
-                            size: 16,
-                            weight: 'bold'
-                        }
+                });
+            }
+
+            async initializeCalendar() {
+                const calendar = new KhmerCalendarController();
+                await calendar.init();
+            }
+
+            closeNavbar() {
+                if (window.innerWidth <= 768 && this.navbarCollapse && this.navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(this.navbarCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
                     }
                 }
             }
-        });
-    }
 
-    async initializeCalendar() {
-        const calendar = new KhmerCalendarController();
-        await calendar.init();
-    }
+            scrollToContent() {
+                const headerHeight = document.querySelector('.header-bar').offsetHeight;
+                window.scrollTo({
+                    top: this.contentContainer.offsetTop - headerHeight - 10,
+                    behavior: 'smooth'
+                });
+            }
 
-    closeNavbar() {
-        if (window.innerWidth <= 768 && this.navbarCollapse && this.navbarCollapse.classList.contains('show')) {
-            const bsCollapse = bootstrap.Collapse.getInstance(this.navbarCollapse);
-            if (bsCollapse) {
-                bsCollapse.hide();
+            toggleSlideshow(section) {
+                const slideshow = document.querySelector('.slideshow-container');
+                if (!slideshow) return;
+
+                if (section === 'home') {
+                    slideshow.classList.remove('hidden');
+                } else {
+                    slideshow.classList.add('hidden');
+                }
             }
         }
-    }
-
-    scrollToContent() {
-        const headerHeight = document.querySelector('.header-bar').offsetHeight;
-        window.scrollTo({
-            top: this.contentContainer.offsetTop - headerHeight - 10,
-            behavior: 'smooth'
-        });
-    }
-
-    toggleSlideshow(section) {
-        const slideshow = document.querySelector('.slideshow-container');
-        if (!slideshow) return;
-
-        if (section === 'home') {
-            slideshow.classList.remove('hidden');
-        } else {
-            slideshow.classList.add('hidden');
-        }
-    }
-}
 
         async function fetchSheetNames() {
             try {
@@ -3337,142 +3325,145 @@
     </script>
 
     <!-- PWA Install Prompt -->
-<div id="installPrompt" style="display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #2C6E49, #4C956C); color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 9999; max-width: 90%; text-align: center; animation: slideUpPrompt 0.4s ease;">
-    <div style="margin-bottom: 10px;">
-        <i class="fas fa-mobile-alt" style="font-size: 2rem;"></i>
+    <div id="installPrompt"
+        style="display: none; position: fixed; bottom: 80px; left: 20%; transform: translateX(-50%); background: linear-gradient(135deg, #2C6E49, #4C956C); color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 9999; max-width: 90%; text-align: center; animation: slideUpPrompt 0.4s ease;">
+        <div style="margin-bottom: 10px;">
+            <i class="fas fa-mobile-alt" style="font-size: 2rem;"></i>
+        </div>
+        <p style="margin: 0 0 3px 0; font-size: 1rem; font-weight: 400;">ដំឡើងជាកម្មវិធី</p>
+        <p style="margin: 0 0 3px 0; font-size: 0.9rem; opacity: 0.95;">ងាយស្រួលប្រើប្រាស់ និងលឿនជាងមុន!</p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="installBtn"
+                style="background: white; color: #2C6E49; border: none; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
+                <i class="fas fa-download"></i> ដំឡើង
+            </button>
+            <button id="dismissInstallBtn"
+                style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
+                មិនទាន់
+            </button>
+        </div>
     </div>
-    <p style="margin: 0 0 3px 0; font-size: 1rem; font-weight: 400;">ដំឡើងជាកម្មវិធី</p>
-    <p style="margin: 0 0 3px 0; font-size: 0.9rem; opacity: 0.95;">ងាយស្រួលប្រើប្រាស់ និងលឿនជាងមុន!</p>
-    <div style="display: flex; gap: 10px; justify-content: center;">
-        <button id="installBtn" style="background: white; color: #2C6E49; border: none; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
-            <i class="fas fa-download"></i> ដំឡើង
-        </button>
-        <button id="dismissInstallBtn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
-            មិនទាន់
-        </button>
-    </div>
-</div>
 
-<style>
-@keyframes slideUpPrompt {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 50px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-}
-</style>
+    <style>
+        @keyframes slideUpPrompt {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 50px);
+            }
 
-<script>
-// PWA Installation & Service Worker Registration
-let deferredPrompt;
-const installPrompt = document.getElementById('installPrompt');
-const installBtn = document.getElementById('installBtn');
-const dismissBtn = document.getElementById('dismissInstallBtn');
-
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('Service Worker registered successfully:', registration.scope);
-                
-                // Check for updates
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // New content available, notify user
-                            if (confirm('មានកំណែថ្មី! តើចង់ធ្វើបច្ចុប្បន្នភាពឥឡូវនេះទេ?')) {
-                                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                window.location.reload();
-                            }
-                        }
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
-}
-
-// Capture install prompt
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Check if user previously dismissed
-    const dismissed = localStorage.getItem('installPromptDismissed');
-    const dismissedTime = localStorage.getItem('installPromptDismissedTime');
-    
-    // Show prompt if not dismissed, or if 7 days passed
-    if (!dismissed || (dismissedTime && Date.now() - parseInt(dismissedTime) > 7 * 24 * 60 * 60 * 1000)) {
-        setTimeout(() => {
-            installPrompt.style.display = 'block';
-        }, 3000); // Show after 3 seconds
-    }
-});
-
-// Install button click
-if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) {
-            alert('មិនអាចដំឡើងបានទេ។ សូមប្រើប្រាស់តាមរយៈ browser!');
-            return;
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
         }
-        
-        installPrompt.style.display = 'none';
-        deferredPrompt.prompt();
-        
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to install prompt: ${outcome}`);
-        
-        if (outcome === 'accepted') {
+    </style>
+
+    <script>
+        // PWA Installation & Service Worker Registration
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        const dismissBtn = document.getElementById('dismissInstallBtn');
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New content available, notify user
+                                    if (confirm('មានកំណែថ្មី! តើចង់ធ្វើបច្ចុប្បន្នភាពឥឡូវនេះទេ?')) {
+                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // Capture install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Check if user previously dismissed
+            const dismissed = localStorage.getItem('installPromptDismissed');
+            const dismissedTime = localStorage.getItem('installPromptDismissedTime');
+
+            // Show prompt if not dismissed, or if 7 days passed
+            if (!dismissed || (dismissedTime && Date.now() - parseInt(dismissedTime) > 7 * 24 * 60 * 60 * 1000)) {
+                setTimeout(() => {
+                    installPrompt.style.display = 'block';
+                }, 3000); // Show after 3 seconds
+            }
+        });
+
+        // Install button click
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    alert('មិនអាចដំឡើងបានទេ។ សូមប្រើប្រាស់តាមរយៈ browser!');
+                    return;
+                }
+
+                installPrompt.style.display = 'none';
+                deferredPrompt.prompt();
+
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to install prompt: ${outcome}`);
+
+                if (outcome === 'accepted') {
+                    localStorage.removeItem('installPromptDismissed');
+                    localStorage.removeItem('installPromptDismissedTime');
+                }
+
+                deferredPrompt = null;
+            });
+        }
+
+        // Dismiss button click
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', () => {
+                installPrompt.style.display = 'none';
+                localStorage.setItem('installPromptDismissed', 'true');
+                localStorage.setItem('installPromptDismissedTime', Date.now().toString());
+            });
+        }
+
+        // Track successful installation
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA installed successfully!');
             localStorage.removeItem('installPromptDismissed');
             localStorage.removeItem('installPromptDismissedTime');
+
+            // Optional: Show success message
+            const successMsg = document.createElement('div');
+            successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 10000; font-family: "Battambang", sans-serif;';
+            successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ដំឡើងបានជោគជ័យ!';
+            document.body.appendChild(successMsg);
+
+            setTimeout(() => {
+                successMsg.remove();
+            }, 3000);
+        });
+
+        // Check if running as installed PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('Running as installed PWA');
+            // Add any PWA-specific behavior here
         }
-        
-        deferredPrompt = null;
-    });
-}
-
-// Dismiss button click
-if (dismissBtn) {
-    dismissBtn.addEventListener('click', () => {
-        installPrompt.style.display = 'none';
-        localStorage.setItem('installPromptDismissed', 'true');
-        localStorage.setItem('installPromptDismissedTime', Date.now().toString());
-    });
-}
-
-// Track successful installation
-window.addEventListener('appinstalled', () => {
-    console.log('PWA installed successfully!');
-    localStorage.removeItem('installPromptDismissed');
-    localStorage.removeItem('installPromptDismissedTime');
-    
-    // Optional: Show success message
-    const successMsg = document.createElement('div');
-    successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 10000; font-family: "Battambang", sans-serif;';
-    successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ដំឡើងបានជោគជ័យ!';
-    document.body.appendChild(successMsg);
-    
-    setTimeout(() => {
-        successMsg.remove();
-    }, 3000);
-});
-
-// Check if running as installed PWA
-if (window.matchMedia('(display-mode: standalone)').matches) {
-    console.log('Running as installed PWA');
-    // Add any PWA-specific behavior here
-}
-</script>
+    </script>
 </body>
 
 </html>
-
