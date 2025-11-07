@@ -3341,14 +3341,14 @@
     <div style="margin-bottom: 10px;">
         <i class="fas fa-mobile-alt" style="font-size: 2rem;"></i>
     </div>
-    <p style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 600;">ដំឡើងជាកម្មវិធី</p>
-    <p style="margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.95;">ងាយស្រួលប្រើប្រាស់ និងលឿនជាងមុន!</p>
+    <p style="margin: 0 0 3px 0; font-size: 1rem; font-weight: 400;">ដំឡើងជាកម្មវិធី</p>
+    <p style="margin: 0 0 3px 0; font-size: 0.9rem; opacity: 0.95;">ងាយស្រួលប្រើប្រាស់ និងលឿនជាងមុន!</p>
     <div style="display: flex; gap: 10px; justify-content: center;">
-        <button id="installBtn" style="background: white; color: #2C6E49; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Battambang', sans-serif;">
+        <button id="installBtn" style="background: white; color: #2C6E49; border: none; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
             <i class="fas fa-download"></i> ដំឡើង
         </button>
-        <button id="dismissInstallBtn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: 'Battambang', sans-serif;">
-            បន្ទាប់បន្សំ
+        <button id="dismissInstallBtn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 5px 10px; border-radius: 8px; font-weight: 400; cursor: pointer; font-family: 'Battambang', sans-serif;">
+            មិនទាន់
         </button>
     </div>
 </div>
@@ -3458,7 +3458,7 @@ window.addEventListener('appinstalled', () => {
     // Optional: Show success message
     const successMsg = document.createElement('div');
     successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #28a745; color: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 10000; font-family: "Battambang", sans-serif;';
-    successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ដំឡើងជោគជ័យ!';
+    successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ដំឡើងបានជោគជ័យ!';
     document.body.appendChild(successMsg);
     
     setTimeout(() => {
