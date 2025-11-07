@@ -776,24 +776,7 @@
             color: var(--secondary-blue);
         }
 
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .popup-overlay.show {
-            display: flex;
-        }
-
+        
         .popup-content {
             background: white;
             padding: 30px;
@@ -2031,22 +2014,7 @@
     <!-- Content Area -->
     <div id="content" class="container"></div>
 
-    <!-- Popup for Student Details -->
-    <div class="popup-overlay" id="studentPopup">
-        <div class="popup-content">
-            <button class="close-btn" id="closePopup">&times;</button>
-            <div class="month-selector">
-                <label for="popupMonthSelect">ជ្រើសរើសខែផ្សេង</label>
-                <select id="popupMonthSelect"></select>
-            </div>
-            <div id="studentDetails"></div>
-            <div id="attendanceDetails" class="attendance-section" style="display: none;"></div>
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="attendanceBtn">តាមដានវត្តមាន</button>
-                <button class="btn btn-secondary" id="closePopupBtn">បិទ</button>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- Bottom Navigation -->
     <div class="bottom-menu">
@@ -2071,7 +2039,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const SPREADSHEET_ID = '1FOxoZrYjGoqqxww9hqK1jVU298-gujpMJ7T7kz_h1F0';
-        const API_KEY = 'AIzaSyCmWu60e8pf939POZxBlHjkRBT_FsLJSlI';
 
         const AppState = {
             currentSection: 'home',
